@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 
-public class Eryptogram
+public class Cryptogram
 {
     private static String Algorithm = "DES";
 
