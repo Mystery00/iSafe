@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">iSafe</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="send">Send Feedback</string>
+    <string name="share">Share With Friends</string>
+    <string name="communicate">Communicate</string>
+    <string name="cloud">Cloud</string>
+</resources>
