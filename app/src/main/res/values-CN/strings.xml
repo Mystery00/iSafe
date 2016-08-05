@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">iSafe</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_changeKey">更改key</string>
+    <string name="action_setting">设置</string>
+
+    <string name="send">意见反馈</string>
+    <string name="share">分享</string>
+    <string name="communicate">Communicate</string>
+    <string name="cloud">云端</string>
+    <string name="all">所有</string>
+    <string name="username">用户名</string>
+    <string name="exit">退出</string>
+    <string name="setting">设置</string>
+</resources>
