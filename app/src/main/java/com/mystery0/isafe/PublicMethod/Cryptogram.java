@@ -1,4 +1,4 @@
-package com.mystery0.isafe;
+package com.mystery0.isafe.PublicMethod;
 
 import android.util.Log;
 

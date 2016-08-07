@@ -11,7 +11,7 @@
               android:paddingTop="@dimen/activity_vertical_margin"
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.mystery0.isafe.CircleImageView
+    <com.mystery0.isafe.PublicMethod.CircleImageView
         android:id="@+id/image_menu_head"
         android:layout_width="@dimen/CircleImageView"
         android:layout_height="@dimen/CircleImageView"
