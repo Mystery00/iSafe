@@ -1,5 +1,6 @@
 package com.mystery0.isafe.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity
         switch (view.getId())
         {
             case R.id.fab:
+                startActivity(new Intent(MainActivity.this,AddActivity.class));
                 break;
             case R.id.image_menu_head:
                 Snackbar.make(coordinatorLayout,"你点击的是头像",Snackbar.LENGTH_SHORT)
