@@ -14,10 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.R;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_head;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+        listView=(ListView)findViewById(R.id.listView);
 
         setSupportActionBar(toolbar);
     }
@@ -97,7 +100,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -133,7 +135,12 @@ public class MainActivity extends AppCompatActivity
         switch (view.getId())
         {
             case R.id.fab:
-                startActivity(new Intent(MainActivity.this,AddActivity.class));
+                Intent intent=new Intent(MainActivity.this,AddActivity.class);
+                intent.putExtra("type","Add");
+                intent.putExtra("title","");
+                intent.putExtra("username","");
+                intent.putExtra("password","");
+                startActivity(intent);
                 break;
             case R.id.image_menu_head:
                 Snackbar.make(coordinatorLayout,"你点击的是头像",Snackbar.LENGTH_SHORT)

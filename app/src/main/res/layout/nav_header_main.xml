@@ -16,7 +16,7 @@
         android:layout_width="@dimen/CircleImageView"
         android:layout_height="@dimen/CircleImageView"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/guest"/>
+        android:src="@drawable/ic_guest"/>
 
     <TextView
         android:layout_width="match_parent"

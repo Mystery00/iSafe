@@ -13,4 +13,57 @@
     tools:context="com.mystery0.isafe.Activity.AddActivity"
     tools:showIn="@layout/activity_add">
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layout_title"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/MyErrorText"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/MyEditText"
+            android:inputType="text"
+            android:hint="@string/hint_title" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layout_username"
+        app:errorEnabled="true"
+        android:layout_below="@id/layout_title"
+        app:errorTextAppearance="@style/MyErrorText"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_text_username"
+            android:theme="@style/MyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/hint_username" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layout_password"
+        app:errorTextAppearance="@style/MyErrorText"
+        app:errorEnabled="true"
+        android:layout_below="@id/layout_username"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_text_password"
+            android:layout_width="match_parent"
+            android:theme="@style/MyEditText"
+            android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword"
+            android:hint="@string/hint_password" />
+
+    </android.support.design.widget.TextInputLayout>
+
 </RelativeLayout>

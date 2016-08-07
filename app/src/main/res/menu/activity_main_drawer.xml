@@ -4,33 +4,33 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all"
-            android:icon="@drawable/all"
+            android:icon="@drawable/ic_all"
             android:checked="true"
-            android:title="@string/all"/>
+            android:title="@string/menu_all"/>
         <item
             android:id="@+id/nav_cloud"
-            android:icon="@drawable/cloud"
-            android:title="@string/cloud"/>
+            android:icon="@drawable/ic_cloud"
+            android:title="@string/menu_cloud"/>
     </group>
 
-    <item android:title="@string/communicate">
+    <item android:title="@string/menu_communicate">
         <menu>
             <item
                 android:id="@+id/nav_setting"
-                android:icon="@drawable/setting"
-                android:title="@string/setting"/>
+                android:icon="@drawable/ic_setting"
+                android:title="@string/menu_setting"/>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/share"
-                android:title="@string/share"/>
+                android:icon="@drawable/ic_share"
+                android:title="@string/menu_share"/>
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/send"
-                android:title="@string/send"/>
+                android:icon="@drawable/ic_send"
+                android:title="@string/menu_send"/>
             <item
                 android:id="@+id/nav_exit"
-                android:icon="@drawable/exit"
-                android:title="@string/exit"/>
+                android:icon="@drawable/ic_exit"
+                android:title="@string/menu_exit"/>
         </menu>
     </item>
 
