@@ -1,4 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.nillith.autoversion'
+
+// Config your version numbers here.
+autoVersion {
+    major 1
+    minor 0
+    patch 0
+    // build 3 // You can provide your own build number to disable auto versionCode update.
+}
 
 android {
     compileSdkVersion 24
@@ -8,7 +17,7 @@ android {
         applicationId "com.mystery0.isafe"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 1
+        versionCode autoVersion.code
         versionName "1.0"
     }
     buildTypes {
