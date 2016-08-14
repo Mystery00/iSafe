@@ -205,11 +205,11 @@ public class MainActivity extends AppCompatActivity
                                 {
                                     case 0:
                                         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                                        params.putString(QQShare.SHARE_TO_QQ_TITLE, "404网警已介入,请注意发言!");
-                                        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "404网警已介入,请注意发言!");
-                                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRYHBU0FkgkfyVGKBIBoeuIAIFlCcSH4E-LVAy61XSWVa9kqsCC");
+                                        params.putString(QQShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));
+                                        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));
+                                        //params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,);
                                         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));
-                                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "404网警");
+                                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getString(R.string.app_name));
                                         mTencent.shareToQQ(MainActivity.this, params, new IUiListener()
                                         {
                                             @Override
