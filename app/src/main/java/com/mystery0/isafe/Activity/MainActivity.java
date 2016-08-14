@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,15 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.R;
 
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_head;
     private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -61,12 +63,12 @@ public class MainActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerLayout=navigationView.getHeaderView(0);
-        img_head=(CircleImageView)headerLayout.findViewById(R.id.image_menu_head);
+        View headerLayout = navigationView.getHeaderView(0);
+        img_head = (CircleImageView) headerLayout.findViewById(R.id.image_menu_head);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout);
-        listView=(ListView)findViewById(R.id.listView);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        listView = (ListView) findViewById(R.id.listView);
 
         setSupportActionBar(toolbar);
     }
@@ -96,6 +98,13 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.action_changeKey:
+                new AlertDialog.Builder(this)
+                        .setTitle("请输入")
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setView(new EditText(this))
+                        .setPositiveButton("确定", null)
+                        .setNegativeButton("取消", null)
+                        .show();
                 break;
             case R.id.action_settings:
                 break;
@@ -135,16 +144,14 @@ public class MainActivity extends AppCompatActivity
         switch (view.getId())
         {
             case R.id.fab:
-                Intent intent=new Intent(MainActivity.this,AddActivity.class);
-                intent.putExtra("type","Add");
-                intent.putExtra("title","");
-                intent.putExtra("username","");
-                intent.putExtra("password","");
+                Intent intent = new Intent(MainActivity.this, ShowActivity.class);
+                intent.putExtra("type", "Add");
+                intent.putExtra("title", "");
+                intent.putExtra("username", "");
+                intent.putExtra("password", "");
                 startActivity(intent);
                 break;
             case R.id.image_menu_head:
-                Snackbar.make(coordinatorLayout,"你点击的是头像",Snackbar.LENGTH_SHORT)
-                        .setAction("Action",null).show();
                 break;
         }
     }

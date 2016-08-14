@@ -8,6 +8,7 @@
     <string name="action_setting">Setting</string>
 
     <string name="username">Username</string>
+
     <string name="menu_send">Send Feedback</string>
     <string name="menu_share">Share With Friends</string>
     <string name="menu_communicate">Communicate</string>
@@ -16,11 +17,14 @@
     <string name="menu_exit">Exit</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_finish">Finish</string>
-    <string name="title_activity_add">AddActivity</string>
+    <string name="menu_edit">Edit</string>
+
     <string name="hint_title">Please Enter Account</string>
     <string name="hint_username">Please Enter Username</string>
     <string name="hint_password">Please Enter Password</string>
+    <string name="error_title">Title Cannot be blank</string>
     <string name="error_username">Username Cannot be blank</string>
     <string name="error_password">Password Cannot be blank</string>
-    <string name="title_activity_show">ShowActivity</string>
+
+    <string name="snack_bar_error_add">Please Complement Information</string>
 </resources>
