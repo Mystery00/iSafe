@@ -50,4 +50,5 @@
     <string name="information_share_title">The New Material Design APP</string>
     <string name="information_share_summary">A laconic and useful APP</string>
     <string name="information_share_url">https://www.google.com</string>
+    <string name="title_activity_feed_back">FeedBackActivity</string>
 </resources>
