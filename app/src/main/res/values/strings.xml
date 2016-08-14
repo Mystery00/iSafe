@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">iSafe</string>
     <string name="app_id">1105614282</string>
+    <string name="application_id">57f0cb7369bb687339e2c2a88d9fbca0</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
