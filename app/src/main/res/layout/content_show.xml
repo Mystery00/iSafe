@@ -26,7 +26,6 @@
             android:id="@+id/layout_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/MyErrorText">
 
@@ -45,7 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_title"
-            android:visibility="gone"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/MyErrorText">
 
@@ -64,7 +62,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_username"
-            android:visibility="gone"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/MyErrorText">
 
@@ -78,15 +75,21 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/spinner"
+            android:layout_below="@id/layout_password"
+            android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/show_text_title"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="@dimen/text_height"
             android:gravity="center_vertical"
             android:text="@string/hint_title"
             android:textSize="@dimen/text_size"
-            android:theme="@style/MyEditText"
-            android:visibility="gone"/>
+            android:theme="@style/MyEditText"/>
 
         <TextView
             android:id="@+id/show_text_username"
@@ -94,21 +97,22 @@
             android:layout_height="@dimen/text_height"
             android:layout_below="@id/show_text_title"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:text="@string/hint_username"
             android:textSize="@dimen/text_size"
-            android:theme="@style/MyEditText"
-            android:visibility="gone"/>
+            android:theme="@style/MyEditText"/>
 
         <TextView
             android:id="@+id/show_text_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_height"
+            android:visibility="gone"
             android:layout_below="@id/show_text_username"
             android:gravity="center_vertical"
             android:text="@string/hint_password"
             android:textSize="@dimen/text_size"
-            android:theme="@style/MyEditText"
-            android:visibility="gone"/>
+            android:theme="@style/MyEditText"/>
 
     </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>

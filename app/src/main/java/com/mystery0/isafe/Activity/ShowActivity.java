@@ -220,7 +220,7 @@ public class ShowActivity extends AppCompatActivity
                                 layout_username.getEditText().getText().toString().length()==0&&
                                 layout_password.getEditText().getText().toString().length()==0)
                             Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_error_add),Snackbar.LENGTH_SHORT)
-                                    .setAction("Action",null).show();
+                                    .show();
                         else
                         {
                             SQLiteHelper data=new SQLiteHelper(ShowActivity.this,"app.db");

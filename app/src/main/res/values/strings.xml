@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">iSafe</string>
+    <string name="app_id">1105614282</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,6 +9,11 @@
     <string name="action_setting">Setting</string>
 
     <string name="username">Username</string>
+    <string name="true_key">HhHhHhKey</string>
+    <string name="wrong_key1">HhHhHhKey</string>
+    <string name="wrong_key2">HhHfGfgSSC</string>
+    <string name="wrong_key3">HhHhHhVXDey</string>
+    <string name="wrong_key4">HhHhHhCEgHUy</string>
 
     <string name="menu_send">Send Feedback</string>
     <string name="menu_share">Share With Friends</string>
@@ -19,12 +25,22 @@
     <string name="menu_finish">Finish</string>
     <string name="menu_edit">Edit</string>
 
-    <string name="hint_title">Please Enter Account</string>
+    <string name="hint_title">Please Enter Title</string>
     <string name="hint_username">Please Enter Username</string>
     <string name="hint_password">Please Enter Password</string>
     <string name="error_title">Title Cannot be blank</string>
     <string name="error_username">Username Cannot be blank</string>
     <string name="error_password">Password Cannot be blank</string>
 
-    <string name="snack_bar_error_add">Please Complement Information</string>
+    <string name="snack_bar_error_add">Please Complement Information!</string>
+    <string name="snack_bar_error_change">The Key Unable!</string>
+    <string name="snack_bar_done_change">Change Key Success!</string>
+    <string name="snack_bar_done_set">Set Key Success!</string>
+
+    <string name="dialog_change_key_title">Change Key</string>
+    <string name="dialog_change_key_message">Developer do not recommend that you change this value more often. This value influences the encryption of data. The different values may cause data loss, and may lead to a series of unknown bug. Please caution modification!</string>
+    <string name="dialog_change_key_hint">Please Enter New Key</string>
+    <string name="dialog_set_key_title">Please Enter Key</string>
+    <string name="dialog_set_key_message">请牢记该值</string>
+    <string name="dialog_set_key_hint">Please Enter Key</string>
 </resources>

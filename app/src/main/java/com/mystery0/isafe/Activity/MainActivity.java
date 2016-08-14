@@ -1,6 +1,8 @@
 package com.mystery0.isafe.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,8 +21,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.mystery0.isafe.PublicMethod.CircleImageView;
+import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.R;
+import com.tencent.tauth.Tencent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_head;
     private ListView listView;
+    private Tencent mTencent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,9 +44,36 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        isFirstRun();
+
         initialization();
 
         monitor();
+    }
+
+    private void isFirstRun()
+    {
+        if(getSharedPreferences("isFirst",MODE_PRIVATE).getBoolean("First",true))
+        {
+            final EditText editText=new EditText(this);
+            editText.setHint(R.string.dialog_set_key_hint);
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.dialog_set_key_title))
+                    .setMessage(getString(R.string.dialog_set_key_message))
+                    .setView(editText)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            getSharedPreferences("isFirst",MODE_PRIVATE).edit().putBoolean("First",false).apply();
+                            Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_done_set),Snackbar.LENGTH_SHORT)
+                                    .show();
+                        }
+                    })
+                    .show();
+
+        }
     }
 
     private void monitor()
@@ -50,6 +82,7 @@ public class MainActivity extends AppCompatActivity
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //noinspection deprecation
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -60,6 +93,7 @@ public class MainActivity extends AppCompatActivity
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
+        mTencent=Tencent.createInstance(getString(R.string.app_id),this.getApplicationContext());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -98,12 +132,42 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.action_changeKey:
+                final EditText localEditText = new EditText(this);
+                localEditText.setHint(R.string.dialog_change_key_hint);
                 new AlertDialog.Builder(this)
-                        .setTitle("请输入")
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .setView(new EditText(this))
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null)
+                        .setTitle(getString(R.string.dialog_change_key_title))
+                        .setIcon(R.drawable.ic_warning)
+                        .setView(localEditText)
+                        .setNegativeButton("Cancel", null)
+                        .setMessage(getString(R.string.dialog_change_key_message))
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                if(localEditText.getText().toString().length()==0)
+                                    Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_error_change),Snackbar.LENGTH_SHORT)
+                                            .show();
+                                else
+                                {
+                                    SharedPreferences.Editor editor=getSharedPreferences("key",MODE_PRIVATE).edit();
+                                    try
+                                    {
+                                        editor.putString("key1",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key1)));
+                                        editor.putString("key2",Cryptogram.JM(localEditText.getText().toString(),getString(R.string.true_key)));
+                                        editor.putString("key3",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key2)));
+                                        editor.putString("key4",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key3)));
+                                        editor.putString("key5",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key4)));
+                                        editor.apply();
+                                        Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_done_change),Snackbar.LENGTH_SHORT)
+                                                .show();
+                                    } catch (Exception e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        })
                         .show();
                 break;
             case R.id.action_settings:
@@ -127,7 +191,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_setting:
                 Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
+                        .show();
                 break;
             case R.id.nav_exit:
                 ExitApplication.getInstance().exit();
