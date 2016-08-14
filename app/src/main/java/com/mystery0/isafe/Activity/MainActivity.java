@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,12 +20,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.R;
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
+import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         img_head = (CircleImageView) headerLayout.findViewById(R.id.image_menu_head);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_main);
         listView = (ListView) findViewById(R.id.listView);
 
         setSupportActionBar(toolbar);
@@ -188,6 +194,76 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_send:
                 break;
             case R.id.nav_share:
+                new AlertDialog.Builder(this)
+                        .setItems(R.array.Share_Menu, new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                final Bundle params = new Bundle();
+                                switch (i)
+                                {
+                                    case 0:
+                                        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+                                        params.putString(QQShare.SHARE_TO_QQ_TITLE, "404网警已介入,请注意发言!");
+                                        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "404网警已介入,请注意发言!");
+                                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRYHBU0FkgkfyVGKBIBoeuIAIFlCcSH4E-LVAy61XSWVa9kqsCC");
+                                        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));
+                                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "404网警");
+                                        mTencent.shareToQQ(MainActivity.this, params, new IUiListener()
+                                        {
+                                            @Override
+                                            public void onComplete(Object o)
+                                            {
+                                                Toast.makeText(MainActivity.this,getString(R.string.toast_complete_share),Toast.LENGTH_SHORT)
+                                                        .show();
+                                            }
+
+                                            @Override
+                                            public void onError(UiError uiError)
+                                            {
+                                                Log.e("error",uiError.toString());
+                                            }
+
+                                            @Override
+                                            public void onCancel()
+                                            {
+                                                Toast.makeText(MainActivity.this,getString(R.string.toast_cancel_share),Toast.LENGTH_SHORT)
+                                                        .show();
+                                            }
+                                        });
+                                        break;
+                                    case 1:
+                                        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));//必填
+                                        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));//选填
+                                        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));//必填
+                                        mTencent.shareToQzone(MainActivity.this, params, new IUiListener()
+                                        {
+                                            @Override
+                                            public void onComplete(Object o)
+                                            {
+                                                Toast.makeText(MainActivity.this,getString(R.string.toast_complete_share),Toast.LENGTH_SHORT)
+                                                        .show();
+                                            }
+
+                                            @Override
+                                            public void onError(UiError uiError)
+                                            {
+                                                Log.e("error",uiError.toString());
+                                            }
+
+                                            @Override
+                                            public void onCancel()
+                                            {
+                                                Toast.makeText(MainActivity.this,getString(R.string.toast_cancel_share),Toast.LENGTH_SHORT)
+                                                        .show();
+                                            }
+                                        });
+                                        break;
+                                }
+                            }
+                        })
+                        .show();
                 break;
             case R.id.nav_setting:
                 Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)

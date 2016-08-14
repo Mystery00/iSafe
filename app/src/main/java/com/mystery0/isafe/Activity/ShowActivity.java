@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +51,7 @@ public class ShowActivity extends AppCompatActivity
         toolbar.setTitle(this.getIntent().getStringExtra("type"));
         setSupportActionBar(toolbar);
 
-        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout_show);
 
         layout_title = (TextInputLayout) findViewById(R.id.layout_title);
         layout_username = (TextInputLayout) findViewById(R.id.layout_username);
@@ -71,22 +72,16 @@ public class ShowActivity extends AppCompatActivity
         switch (this.getIntent().getStringExtra("type"))
         {
             case "Edit":
-                toolbar.getMenu().findItem(R.id.action_edit).setVisible(false);
-                toolbar.getMenu().findItem(R.id.action_finish).setVisible(true);
                 layout_title.setVisibility(View.VISIBLE);
                 layout_username.setVisibility(View.VISIBLE);
                 layout_password.setVisibility(View.VISIBLE);
                 break;
             case "Show":
-                toolbar.getMenu().findItem(R.id.action_edit).setVisible(true);
-                toolbar.getMenu().findItem(R.id.action_finish).setVisible(false);
                 show_title.setVisibility(View.VISIBLE);
                 show_username.setVisibility(View.VISIBLE);
                 show_password.setVisibility(View.VISIBLE);
                 break;
             case "Add":
-                toolbar.getMenu().findItem(R.id.action_edit).setVisible(false);
-                toolbar.getMenu().findItem(R.id.action_finish).setVisible(true);
                 layout_title.setVisibility(View.VISIBLE);
                 layout_username.setVisibility(View.VISIBLE);
                 layout_password.setVisibility(View.VISIBLE);
@@ -185,6 +180,21 @@ public class ShowActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.show, menu);
+        switch (this.getIntent().getStringExtra("type"))
+        {
+            case "Add":
+                menu.findItem(R.id.action_edit).setVisible(false);
+                menu.findItem(R.id.action_finish).setVisible(true);
+                break;
+            case "Show":
+                menu.findItem(R.id.action_edit).setVisible(true);
+                menu.findItem(R.id.action_finish).setVisible(false);
+                break;
+            case "Edit":
+                menu.findItem(R.id.action_edit).setVisible(false);
+                menu.findItem(R.id.action_finish).setVisible(true);
+                break;
+        }
         return true;
     }
 
@@ -198,11 +208,13 @@ public class ShowActivity extends AppCompatActivity
                 {
                     case "Add":
                         //noinspection ConstantConditions
-                        if (layout_title.getEditText().getText().toString().length()!=0&&
+                        if (layout_title.getEditText().getText().toString().length()==0&&
                                 layout_username.getEditText().getText().toString().length()==0&&
                                 layout_password.getEditText().getText().toString().length()==0)
-                            Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_error_add),Snackbar.LENGTH_SHORT)
-                                    .setAction("Action",null).show();
+                        {
+                            Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_error_add), Snackbar.LENGTH_SHORT)
+                                    .show();
+                        }
                         else
                         {
                             SQLiteHelper data=new SQLiteHelper(ShowActivity.this,"app.db");
@@ -216,7 +228,7 @@ public class ShowActivity extends AppCompatActivity
                         break;
                     case "Edit":
                         //noinspection ConstantConditions
-                        if (layout_title.getEditText().getText().toString().length()!=0&&
+                        if (layout_title.getEditText().getText().toString().length()==0&&
                                 layout_username.getEditText().getText().toString().length()==0&&
                                 layout_password.getEditText().getText().toString().length()==0)
                             Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_error_add),Snackbar.LENGTH_SHORT)

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Share_Menu">
+        <item>分享给QQ好友</item>
+        <item>分享到QQ空间</item>
+    </string-array>
+</resources>

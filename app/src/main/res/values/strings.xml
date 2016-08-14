@@ -37,10 +37,17 @@
     <string name="snack_bar_done_change">Change Key Success!</string>
     <string name="snack_bar_done_set">Set Key Success!</string>
 
+    <string name="toast_complete_share">Shared Success!</string>
+    <string name="toast_cancel_share">Share Cancel!</string>
+
     <string name="dialog_change_key_title">Change Key</string>
     <string name="dialog_change_key_message">Developer do not recommend that you change this value more often. This value influences the encryption of data. The different values may cause data loss, and may lead to a series of unknown bug. Please caution modification!</string>
     <string name="dialog_change_key_hint">Please Enter New Key</string>
     <string name="dialog_set_key_title">Please Enter Key</string>
-    <string name="dialog_set_key_message">请牢记该值</string>
+    <string name="dialog_set_key_message">Please Keep in mind this value!</string>
     <string name="dialog_set_key_hint">Please Enter Key</string>
+
+    <string name="information_share_title">The New Material Design APP</string>
+    <string name="information_share_summary">A laconic and useful APP</string>
+    <string name="information_share_url">https://www.google.com</string>
 </resources>
