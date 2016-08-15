@@ -29,14 +29,19 @@
     <string name="hint_title">Please Enter Title</string>
     <string name="hint_username">Please Enter Username</string>
     <string name="hint_password">Please Enter Password</string>
+    <string name="hint_feed_message">Please Enter Message</string>
+    <string name="hint_contact">Please Enter Your Contact Information</string>
     <string name="error_title">Title Cannot be blank</string>
     <string name="error_username">Username Cannot be blank</string>
     <string name="error_password">Password Cannot be blank</string>
+    <string name="error_contact">Contact Information Cannot be blank</string>
 
     <string name="snack_bar_error_add">Please Complement Information!</string>
     <string name="snack_bar_error_change">The Key Unable!</string>
+    <string name="snack_bar_error_feedback">Please Complete Information!</string>
     <string name="snack_bar_done_change">Change Key Success!</string>
     <string name="snack_bar_done_set">Set Key Success!</string>
+    <string name="snack_bar_done_feedback">Success!</string>
 
     <string name="toast_complete_share">Shared Success!</string>
     <string name="toast_cancel_share">Share Cancel!</string>
@@ -47,9 +52,11 @@
     <string name="dialog_set_key_title">Please Enter Key</string>
     <string name="dialog_set_key_message">Please Keep in mind this value!</string>
     <string name="dialog_set_key_hint">Please Enter Key</string>
+    <string name="dialog_feedback_title">Loading …</string>
 
     <string name="information_share_title">The New Material Design APP</string>
     <string name="information_share_summary">A laconic and useful APP</string>
     <string name="information_share_url">https://www.google.com</string>
     <string name="title_activity_feed_back">FeedBackActivity</string>
+    <string name="about_us">About Us</string>
 </resources>

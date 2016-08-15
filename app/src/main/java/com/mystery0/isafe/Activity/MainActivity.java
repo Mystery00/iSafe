@@ -82,20 +82,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void monitor()
-    {
-        fab.setOnClickListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //noinspection deprecation
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-        img_head.setOnClickListener(this);
-    }
-
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
@@ -111,6 +97,20 @@ public class MainActivity extends AppCompatActivity
         listView = (ListView) findViewById(R.id.listView);
 
         setSupportActionBar(toolbar);
+    }
+
+    private void monitor()
+    {
+        fab.setOnClickListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //noinspection deprecation
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+        img_head.setOnClickListener(this);
     }
 
     @Override
@@ -191,7 +191,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_cloud:
                 break;
-            case R.id.nav_send:
+            case R.id.nav_setting:
+                Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
+                        .show();
                 break;
             case R.id.nav_share:
                 new AlertDialog.Builder(this)
@@ -265,9 +267,8 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
                 break;
-            case R.id.nav_setting:
-                Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
-                        .show();
+            case R.id.nav_send:
+                startActivity(new Intent(MainActivity.this,FeedBackActivity.class));
                 break;
             case R.id.nav_exit:
                 ExitApplication.getInstance().exit();
