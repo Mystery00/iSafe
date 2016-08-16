@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_item">
+        <item>Computer</item>
+        <item>Internet</item>
+        <item>Email</item>
+        <item>Game</item>
+        <item>Member</item>
+        <item>Cloud</item>
+    </string-array>
+</resources>

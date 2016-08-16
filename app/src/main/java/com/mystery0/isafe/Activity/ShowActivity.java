@@ -10,10 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mystery0.isafe.ContentProvider.SQLiteHelper;
@@ -31,6 +33,8 @@ public class ShowActivity extends AppCompatActivity
     private TextView show_username;
     private TextView show_password;
     private CoordinatorLayout coordinatorLayout;
+    private Spinner spinner;
+    private int item_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,6 +56,7 @@ public class ShowActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout_show);
+        spinner=(Spinner)findViewById(R.id.spinner);
 
         layout_title = (TextInputLayout) findViewById(R.id.layout_title);
         layout_username = (TextInputLayout) findViewById(R.id.layout_username);
@@ -69,12 +74,15 @@ public class ShowActivity extends AppCompatActivity
         layout_username.getEditText().setText(this.getIntent().getStringExtra("username"));
         layout_password.getEditText().setText(this.getIntent().getStringExtra("password"));
 
+        spinner.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.spinner_item)));
+        spinner.setSelection(this.getIntent().getIntExtra("item_type",0),true);
         switch (this.getIntent().getStringExtra("type"))
         {
             case "Edit":
                 layout_title.setVisibility(View.VISIBLE);
                 layout_username.setVisibility(View.VISIBLE);
                 layout_password.setVisibility(View.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
                 break;
             case "Show":
                 show_title.setVisibility(View.VISIBLE);
@@ -85,6 +93,7 @@ public class ShowActivity extends AppCompatActivity
                 layout_title.setVisibility(View.VISIBLE);
                 layout_username.setVisibility(View.VISIBLE);
                 layout_password.setVisibility(View.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -174,6 +183,19 @@ public class ShowActivity extends AppCompatActivity
                 }
             }
         });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                item_type=i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
     }
 
     @Override
@@ -217,12 +239,13 @@ public class ShowActivity extends AppCompatActivity
                         }
                         else
                         {
-                            SQLiteHelper data=new SQLiteHelper(ShowActivity.this,"app.db");
+                            SQLiteHelper data=new SQLiteHelper(ShowActivity.this,getString(R.string.data_base_file_name));
                             SQLiteDatabase db=data.getWritableDatabase();
                             ContentValues values=new ContentValues();
                             values.put("title",layout_title.getEditText().getText().toString());
                             values.put("username",layout_username.getEditText().getText().toString());
                             values.put("password",layout_password.getEditText().getText().toString());
+                            values.put("item_type",item_type);
                             db.insert("kk",null,values);
                         }
                         break;
@@ -241,6 +264,7 @@ public class ShowActivity extends AppCompatActivity
                             values.put("title",layout_title.getEditText().getText().toString());
                             values.put("username",layout_username.getEditText().getText().toString());
                             values.put("password",layout_password.getEditText().getText().toString());
+                            values.put("item_type",item_type);
                             db.update("kk",values,null,null);
                         }
                         break;

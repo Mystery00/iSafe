@@ -3,14 +3,34 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_all"
+            android:id="@+id/item_all"
             android:icon="@drawable/ic_all"
             android:checked="true"
-            android:title="@string/menu_all"/>
+            android:title="@string/item_all"/>
         <item
-            android:id="@+id/nav_cloud"
+            android:id="@+id/item_computer"
+            android:icon="@drawable/ic_computer"
+            android:title="@string/item_computer"/>
+        <item
+            android:id="@+id/item_Internet"
+            android:icon="@drawable/ic_internet"
+            android:title="@string/item_internet"/>
+        <item
+            android:id="@+id/item_Email"
+            android:icon="@drawable/ic_email"
+            android:title="@string/item_email"/>
+        <item
+            android:id="@+id/item_game"
+            android:icon="@drawable/ic_game"
+            android:title="@string/item_game"/>
+        <item
+            android:id="@+id/item_member"
+            android:icon="@drawable/ic_member"
+            android:title="@string/item_member"/>
+        <item
+            android:id="@+id/item_cloud"
             android:icon="@drawable/ic_cloud"
-            android:title="@string/menu_cloud"/>
+            android:title="@string/item_cloud"/>
     </group>
 
     <item android:title="@string/menu_communicate">

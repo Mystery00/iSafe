@@ -32,6 +32,7 @@
                 android:id="@+id/layout_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/MyErrorText">
 
@@ -49,6 +50,7 @@
                 android:id="@+id/layout_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@id/layout_title"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/MyErrorText">
@@ -67,6 +69,7 @@
                 android:id="@+id/layout_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@id/layout_username"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/MyErrorText">
@@ -112,6 +115,13 @@
                 android:textSize="@dimen/text_size"
                 android:theme="@style/MyEditText"
                 android:visibility="gone"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:id="@+id/spinner"
+                android:visibility="gone"
+                android:layout_below="@id/layout_password"
+                android:layout_height="wrap_content"/>
 
         </RelativeLayout>
 

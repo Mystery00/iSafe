@@ -2,6 +2,8 @@
     <string name="app_name">iSafe</string>
     <string name="app_id">1105614282</string>
     <string name="application_id">57f0cb7369bb687339e2c2a88d9fbca0</string>
+    <string name="data_base_file_name">app.db</string>
+    <string name="data_base_table_name">kk</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -19,12 +21,18 @@
     <string name="menu_send">Send Feedback</string>
     <string name="menu_share">Share With Friends</string>
     <string name="menu_communicate">Communicate</string>
-    <string name="menu_cloud">Cloud</string>
-    <string name="menu_all">All</string>
     <string name="menu_exit">Exit</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_finish">Finish</string>
     <string name="menu_edit">Edit</string>
+
+    <string name="item_all">All</string>
+    <string name="item_computer">Computer</string>
+    <string name="item_internet">Internet</string>
+    <string name="item_email">Email</string>
+    <string name="item_game">Game</string>
+    <string name="item_member">Member</string>
+    <string name="item_cloud">Cloud</string>
 
     <string name="hint_title">Please Enter Title</string>
     <string name="hint_username">Please Enter Username</string>

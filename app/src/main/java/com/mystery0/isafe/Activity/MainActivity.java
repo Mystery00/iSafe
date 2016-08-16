@@ -1,5 +1,6 @@
 package com.mystery0.isafe.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,13 +19,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mystery0.isafe.Adapter.ShowAdapter;
+import com.mystery0.isafe.BaseClass.SaveInfo;
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
+import com.mystery0.isafe.PublicMethod.GetList;
 import com.mystery0.isafe.R;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     private CircleImageView img_head;
     private ListView listView;
     private Tencent tencent;
-
+    private int checked=0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -97,6 +102,8 @@ public class MainActivity extends AppCompatActivity
         listView = (ListView) findViewById(R.id.listView);
 
         setSupportActionBar(toolbar);
+
+        showList(MainActivity.this,GetList.ALL);
     }
 
     private void monitor()
@@ -111,6 +118,22 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
         img_head.setOnClickListener(this);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                SaveInfo saveInfo=GetList.getList(MainActivity.this,checked).get(i);
+                Intent intent = new Intent(MainActivity.this, ShowActivity.class);
+                intent.putExtra("type", "Edit");
+                intent.putExtra("title", saveInfo.getTitle());
+                intent.putExtra("username", saveInfo.getUsername());
+                intent.putExtra("password", saveInfo.getPassword());
+                intent.putExtra("item_type",checked);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -177,6 +200,8 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
             case R.id.action_settings:
+                Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
+                        .show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -187,10 +212,33 @@ public class MainActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
-            case R.id.nav_all:
+            case R.id.item_all:
+                checked=0;
+                showList(MainActivity.this,GetList.ALL);
                 break;
-            case R.id.nav_cloud:
+            case R.id.item_computer:
+                checked=1;
+                showList(MainActivity.this,GetList.COMPUTER);
                 break;
+            case R.id.item_Internet:
+                checked=2;
+                showList(MainActivity.this,GetList.INTERNET);
+                break;
+            case R.id.item_Email:
+                checked=3;
+                showList(MainActivity.this,GetList.E_MAIL);
+                break;
+            case R.id.item_game:
+                checked=4;
+                showList(MainActivity.this,GetList.GAME);
+                break;
+            case R.id.item_member:
+                checked=5;
+                showList(MainActivity.this,GetList.MEMBER);
+                break;
+            case R.id.item_cloud:
+                break;
+
             case R.id.nav_setting://Setting
                 Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
                         .show();
@@ -280,7 +328,6 @@ public class MainActivity extends AppCompatActivity
                 ExitApplication.getInstance().exit();
                 break;
         }
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -301,5 +348,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.image_menu_head:
                 break;
         }
+    }
+
+    private void showList(Context context,int type)
+    {
+        ShowAdapter showAdapter=new ShowAdapter(context,GetList.getList(context,type));
+        listView.setAdapter(showAdapter);
     }
 }
