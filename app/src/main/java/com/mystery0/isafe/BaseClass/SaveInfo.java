@@ -9,6 +9,7 @@ public class SaveInfo
     private String Title;
     private String Username;
     private String Password;
+    private int Type;
 
     public String getTitle()
     {
@@ -38,5 +39,15 @@ public class SaveInfo
     public void setPassword(String password)
     {
         this.Password = password;
+    }
+
+    public int getType()
+    {
+        return Type;
+    }
+
+    public void setType(int type)
+    {
+        this.Type = type;
     }
 }

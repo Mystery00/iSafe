@@ -3,11 +3,12 @@ package com.mystery0.isafe.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -47,8 +48,11 @@ public class MainActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_head;
     private ListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Tencent tencent;
-    private int checked=0;
+    private int checked = 0;
+    public static final int REQUEST=11;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -64,9 +68,9 @@ public class MainActivity extends AppCompatActivity
 
     private void isFirstRun()
     {
-        if(getSharedPreferences("isFirst",MODE_PRIVATE).getBoolean("First",true))
+        if (getSharedPreferences("isFirst", MODE_PRIVATE).getBoolean("First", true))
         {
-            final EditText editText=new EditText(this);
+            final EditText editText = new EditText(this);
             editText.setHint(R.string.dialog_set_key_hint);
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.dialog_set_key_title))
@@ -77,8 +81,25 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i)
                         {
-                            getSharedPreferences("isFirst",MODE_PRIVATE).edit().putBoolean("First",false).apply();
-                            Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_done_set),Snackbar.LENGTH_SHORT)
+                            getSharedPreferences("isFirst", MODE_PRIVATE)
+                                    .edit()
+                                    .putBoolean("First", false)
+                                    .apply();
+                            try
+                            {
+                                getSharedPreferences("key", MODE_PRIVATE)
+                                        .edit()
+                                        .putString("key1", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key1)))
+                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), getString(R.string.true_key)))
+                                        .putString("key3", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key2)))
+                                        .putString("key4", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key3)))
+                                        .putString("key5", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key4)))
+                                        .apply();
+                            } catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                            Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_done_set), Snackbar.LENGTH_SHORT)
                                     .show();
                         }
                     })
@@ -90,7 +111,7 @@ public class MainActivity extends AppCompatActivity
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
-        tencent =Tencent.createInstance(getString(R.string.app_id),this.getApplicationContext());
+        tencent = Tencent.createInstance(getString(R.string.app_id), this.getApplicationContext());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -100,10 +121,31 @@ public class MainActivity extends AppCompatActivity
         fab = (FloatingActionButton) findViewById(R.id.fab);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_main);
         listView = (ListView) findViewById(R.id.listView);
+        swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 
         setSupportActionBar(toolbar);
-
-        showList(MainActivity.this,GetList.ALL);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        showList(MainActivity.this,checked);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                },2000);
+            }
+        });
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        showList(MainActivity.this, GetList.ALL);
     }
 
     private void monitor()
@@ -124,13 +166,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                SaveInfo saveInfo=GetList.getList(MainActivity.this,checked).get(i);
+                SaveInfo saveInfo = GetList.getList(MainActivity.this, checked).get(i);
                 Intent intent = new Intent(MainActivity.this, ShowActivity.class);
-                intent.putExtra("type", "Edit");
+                intent.putExtra("type", "Show");
                 intent.putExtra("title", saveInfo.getTitle());
                 intent.putExtra("username", saveInfo.getUsername());
                 intent.putExtra("password", saveInfo.getPassword());
-                intent.putExtra("item_type",checked);
+                intent.putExtra("item_type", checked);
                 startActivity(intent);
             }
         });
@@ -174,26 +216,22 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i)
                             {
-                                if(localEditText.getText().toString().length()==0)
-                                    Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_error_change),Snackbar.LENGTH_SHORT)
+                                if (localEditText.getText().toString().length() == 0)
+                                    Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_error_change), Snackbar.LENGTH_SHORT)
                                             .show();
                                 else
                                 {
-                                    SharedPreferences.Editor editor=getSharedPreferences("key",MODE_PRIVATE).edit();
                                     try
                                     {
-                                        editor.putString("key1",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key1)));
-                                        editor.putString("key2",Cryptogram.JM(localEditText.getText().toString(),getString(R.string.true_key)));
-                                        editor.putString("key3",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key2)));
-                                        editor.putString("key4",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key3)));
-                                        editor.putString("key5",Cryptogram.JM(getString(R.string.username),getString(R.string.wrong_key4)));
-                                        editor.apply();
-                                        Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_done_change),Snackbar.LENGTH_SHORT)
-                                                .show();
+                                        getSharedPreferences("key", MODE_PRIVATE)
+                                                .edit().putString("key2", Cryptogram.JM(localEditText.getText().toString(), getString(R.string.true_key)))
+                                                .apply();
                                     } catch (Exception e)
                                     {
                                         e.printStackTrace();
                                     }
+                                    Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_done_change), Snackbar.LENGTH_SHORT)
+                                            .show();
                                 }
                             }
                         })
@@ -213,28 +251,28 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.item_all:
-                checked=0;
-                showList(MainActivity.this,GetList.ALL);
+                checked = 0;
+                showList(MainActivity.this, GetList.ALL);
                 break;
             case R.id.item_computer:
-                checked=1;
-                showList(MainActivity.this,GetList.COMPUTER);
+                checked = 1;
+                showList(MainActivity.this, GetList.COMPUTER);
                 break;
             case R.id.item_Internet:
-                checked=2;
-                showList(MainActivity.this,GetList.INTERNET);
+                checked = 2;
+                showList(MainActivity.this, GetList.INTERNET);
                 break;
             case R.id.item_Email:
-                checked=3;
-                showList(MainActivity.this,GetList.E_MAIL);
+                checked = 3;
+                showList(MainActivity.this, GetList.E_MAIL);
                 break;
             case R.id.item_game:
-                checked=4;
-                showList(MainActivity.this,GetList.GAME);
+                checked = 4;
+                showList(MainActivity.this, GetList.GAME);
                 break;
             case R.id.item_member:
-                checked=5;
-                showList(MainActivity.this,GetList.MEMBER);
+                checked = 5;
+                showList(MainActivity.this, GetList.MEMBER);
                 break;
             case R.id.item_cloud:
                 break;
@@ -265,20 +303,20 @@ public class MainActivity extends AppCompatActivity
                                             @Override
                                             public void onComplete(Object o)
                                             {
-                                                Toast.makeText(MainActivity.this,getString(R.string.toast_complete_share),Toast.LENGTH_SHORT)
+                                                Toast.makeText(MainActivity.this, getString(R.string.toast_complete_share), Toast.LENGTH_SHORT)
                                                         .show();
                                             }
 
                                             @Override
                                             public void onError(UiError uiError)
                                             {
-                                                Log.e("error",uiError.toString());
+                                                Log.e("error", uiError.toString());
                                             }
 
                                             @Override
                                             public void onCancel()
                                             {
-                                                Toast.makeText(MainActivity.this,getString(R.string.toast_cancel_share),Toast.LENGTH_SHORT)
+                                                Toast.makeText(MainActivity.this, getString(R.string.toast_cancel_share), Toast.LENGTH_SHORT)
                                                         .show();
                                             }
                                         });
@@ -292,20 +330,20 @@ public class MainActivity extends AppCompatActivity
                                             @Override
                                             public void onComplete(Object o)
                                             {
-                                                Toast.makeText(MainActivity.this,getString(R.string.toast_complete_share),Toast.LENGTH_SHORT)
+                                                Toast.makeText(MainActivity.this, getString(R.string.toast_complete_share), Toast.LENGTH_SHORT)
                                                         .show();
                                             }
 
                                             @Override
                                             public void onError(UiError uiError)
                                             {
-                                                Log.e("error",uiError.toString());
+                                                Log.e("error", uiError.toString());
                                             }
 
                                             @Override
                                             public void onCancel()
                                             {
-                                                Toast.makeText(MainActivity.this,getString(R.string.toast_cancel_share),Toast.LENGTH_SHORT)
+                                                Toast.makeText(MainActivity.this, getString(R.string.toast_cancel_share), Toast.LENGTH_SHORT)
                                                         .show();
                                             }
                                         });
@@ -316,12 +354,12 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
             case R.id.nav_send://Feedback
-                startActivity(new Intent(MainActivity.this,FeedBackActivity.class));
+                startActivity(new Intent(MainActivity.this, FeedBackActivity.class));
                 break;
             case R.id.nav_about://About Us
                 new AlertDialog.Builder(this)
                         .setView(R.layout.dialog_about_us)
-                        .setNegativeButton("Ok",null)
+                        .setNegativeButton("Ok", null)
                         .show();
                 break;
             case R.id.nav_exit://Exit App
@@ -343,16 +381,38 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("title", "");
                 intent.putExtra("username", "");
                 intent.putExtra("password", "");
-                startActivity(intent);
+                intent.putExtra("item_type",0);
+                startActivityForResult(intent,REQUEST);
                 break;
             case R.id.image_menu_head:
                 break;
         }
     }
 
-    private void showList(Context context,int type)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        ShowAdapter showAdapter=new ShowAdapter(context,GetList.getList(context,type));
+        if(requestCode==REQUEST)
+        {
+            if (resultCode==RESULT_OK)
+            {
+                swipeRefreshLayout.setRefreshing(true);
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        showList(MainActivity.this,checked);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                },2000);
+            }
+        }
+    }
+
+    private void showList(Context context, int type)
+    {
+        ShowAdapter showAdapter = new ShowAdapter(context, GetList.getList(context, type));
         listView.setAdapter(showAdapter);
     }
 }

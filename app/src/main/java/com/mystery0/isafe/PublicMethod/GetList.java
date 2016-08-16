@@ -18,6 +18,7 @@ public class GetList
     public static final int E_MAIL=3;
     public static final int GAME=4;
     public static final int MEMBER=5;
+
     public static ArrayList<SaveInfo> getList(Context context,int type)
     {
         ArrayList<SaveInfo> saveInfoArrayList=new ArrayList<>();
@@ -29,14 +30,26 @@ public class GetList
             cursor=db.query(context.getString(R.string.data_base_table_name),new String[]{"title", "username", "password"}, null, null, null, null, null);
         }else
         {
-            cursor = db.query(context.getString(R.string.data_base_table_name), new String[]{"title", "username", "password"}, "type=?", new String[]{context.getString(type)}, null, null, null);
+            cursor = db.query(context.getString(R.string.data_base_table_name), new String[]{"title", "username", "password","type"}, "type=?", new String[]{""+type}, null, null, null);
         }
         while (cursor.moveToNext())
         {
             SaveInfo saveInfo=new SaveInfo();
             saveInfo.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-            saveInfo.setUsername(cursor.getString(cursor.getColumnIndex("username")));
-            saveInfo.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+            try
+            {
+                saveInfo.setUsername(
+                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("username")),
+                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2","Mystery0"),
+                                context.getString(R.string.true_key))));
+                saveInfo.setPassword(
+                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("password")),
+                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2","Mystery0"),
+                                context.getString(R.string.true_key))));
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             saveInfoArrayList.add(saveInfo);
         }
         cursor.close();

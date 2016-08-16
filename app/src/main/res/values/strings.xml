@@ -2,6 +2,7 @@
     <string name="app_name">iSafe</string>
     <string name="app_id">1105614282</string>
     <string name="application_id">57f0cb7369bb687339e2c2a88d9fbca0</string>
+
     <string name="data_base_file_name">app.db</string>
     <string name="data_base_table_name">kk</string>
 
@@ -12,6 +13,7 @@
     <string name="action_setting">Setting</string>
 
     <string name="username">Username</string>
+
     <string name="true_key">HhHhHhKey</string>
     <string name="wrong_key1">HhHhHhKey</string>
     <string name="wrong_key2">HhHfGfgSSC</string>
@@ -25,6 +27,7 @@
     <string name="menu_setting">Setting</string>
     <string name="menu_finish">Finish</string>
     <string name="menu_edit">Edit</string>
+    <string name="menu_about_us">About Us</string>
 
     <string name="item_all">All</string>
     <string name="item_computer">Computer</string>
@@ -50,6 +53,7 @@
     <string name="snack_bar_done_change">Change Key Success!</string>
     <string name="snack_bar_done_set">Set Key Success!</string>
     <string name="snack_bar_done_feedback">Success!</string>
+    <string name="snack_bar_copied">Text Copied To Clipboard!</string>
 
     <string name="toast_complete_share">Shared Success!</string>
     <string name="toast_cancel_share">Share Cancel!</string>
@@ -70,5 +74,4 @@
     <string name="information_share_summary">A laconic and useful APP</string>
     <string name="information_share_url">https://www.google.com</string>
     <string name="title_activity_feed_back">FeedBackActivity</string>
-    <string name="about_us">About Us</string>
 </resources>
