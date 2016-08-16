@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_head;
     private ListView listView;
-    private Tencent mTencent;
+    private Tencent tencent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
-        mTencent=Tencent.createInstance(getString(R.string.app_id),this.getApplicationContext());
+        tencent =Tencent.createInstance(getString(R.string.app_id),this.getApplicationContext());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
         {
-            super.onBackPressed();
+            drawer.openDrawer(GravityCompat.START);
         }
     }
 
@@ -191,11 +191,11 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_cloud:
                 break;
-            case R.id.nav_setting:
+            case R.id.nav_setting://Setting
                 Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
                         .show();
                 break;
-            case R.id.nav_share:
+            case R.id.nav_share://Share with friends
                 new AlertDialog.Builder(this)
                         .setItems(R.array.Share_Menu, new DialogInterface.OnClickListener()
                         {
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity
                                         //params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,);
                                         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));
                                         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getString(R.string.app_name));
-                                        mTencent.shareToQQ(MainActivity.this, params, new IUiListener()
+                                        tencent.shareToQQ(MainActivity.this, params, new IUiListener()
                                         {
                                             @Override
                                             public void onComplete(Object o)
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity
                                         params.putString(QzoneShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));//必填
                                         params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));//选填
                                         params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));//必填
-                                        mTencent.shareToQzone(MainActivity.this, params, new IUiListener()
+                                        tencent.shareToQzone(MainActivity.this, params, new IUiListener()
                                         {
                                             @Override
                                             public void onComplete(Object o)
@@ -267,10 +267,16 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
                 break;
-            case R.id.nav_send:
+            case R.id.nav_send://Feedback
                 startActivity(new Intent(MainActivity.this,FeedBackActivity.class));
                 break;
-            case R.id.nav_exit:
+            case R.id.nav_about://About Us
+                new AlertDialog.Builder(this)
+                        .setView(R.layout.dialog_about_us)
+                        .setNegativeButton("Ok",null)
+                        .show();
+                break;
+            case R.id.nav_exit://Exit App
                 ExitApplication.getInstance().exit();
                 break;
         }

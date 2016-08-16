@@ -53,6 +53,10 @@
     <string name="dialog_set_key_message">Please Keep in mind this value!</string>
     <string name="dialog_set_key_hint">Please Enter Key</string>
     <string name="dialog_feedback_title">Loading …</string>
+    <string name="dialog_about_title">iSafe</string>
+    <string name="dialog_about_version">Version 1.0.0</string>
+    <string name="dialog_about_author">By Mystery0</string>
+    <string name="dialog_about_team">MX Team</string>
 
     <string name="information_share_title">The New Material Design APP</string>
     <string name="information_share_summary">A laconic and useful APP</string>
