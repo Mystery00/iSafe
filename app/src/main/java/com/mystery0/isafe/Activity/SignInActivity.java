@@ -3,7 +3,9 @@ package com.mystery0.isafe.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -72,7 +74,7 @@ public class SignInActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
+                login();
             }
         });
         text_new.setOnClickListener(new View.OnClickListener()
@@ -95,41 +97,51 @@ public class SignInActivity extends AppCompatActivity
             {
                 login_username.getEditText().setText(data.getStringExtra("username"));
                 login_password.getEditText().setText(data.getStringExtra("password"));
+                login();
             }
         }
     }
     @SuppressWarnings("ConstantConditions")
     private void login()
     {
-        final ProgressDialog progressDialog=new ProgressDialog(SignInActivity.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(true);
-        progressDialog.show();
-        User user=new User();
-        user.setUsername(login_username.getEditText().getText().toString());
-        try
+        if(
+                login_username.getEditText().getText().toString().length()!=0&&
+                login_password.getEditText().getText().toString().length()!=0)
         {
-            user.setPassword(Cryptogram.JM(login_password.getEditText().getText().toString(),getSharedPreferences("key",MODE_PRIVATE).getString("key6","null")));
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        user.login(new SaveListener<User>()
-        {
-            @Override
-            public void done(User user, BmobException e)
+            final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            User user = new User();
+            user.setUsername(login_username.getEditText().getText().toString());
+            try
             {
-                progressDialog.dismiss();
-                if(e==null)
-                {
-                    Toast.makeText(SignInActivity.this,getString(R.string.toast_complete_sign_in),Toast.LENGTH_SHORT).show();
-                    finish();
-                }else
-                {
-                    Log.e("error",e.toString());
-                    Toast.makeText(SignInActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
-                }
+                user.setPassword(Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")));
+            } catch (Exception e)
+            {
+                e.printStackTrace();
             }
-        });
+            user.login(new SaveListener<User>()
+            {
+                @Override
+                public void done(User user, BmobException e)
+                {
+                    progressDialog.dismiss();
+                    if (e == null)
+                    {
+                        Toast.makeText(SignInActivity.this, getString(R.string.toast_complete_sign_in), Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else
+                    {
+                        Log.e("error", e.toString());
+                        Toast.makeText(SignInActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }else
+        {
+            Snackbar.make(findViewById(R.id.coordinatorLayout_sign_in),getString(R.string.snack_bar_error_add),Snackbar.LENGTH_SHORT)
+                    .show();
+        }
     }
 }
