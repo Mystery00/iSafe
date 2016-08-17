@@ -216,10 +216,12 @@ public class SignUpActivity extends AppCompatActivity
                             progressDialog.dismiss();
                             if(e==null)
                             {
-                                Log.i("info",user.getUsername());
-                                Log.i("info",user.getPassword());
-                                Log.i("info",user.getEmail());
                                 Toast.makeText(SignUpActivity.this,getString(R.string.toast_complete_sign_up),Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent();
+                                intent.putExtra("username",sign_username.getEditText().getText().toString());
+                                intent.putExtra("password",sign_password.getEditText().getText().toString());
+                                setResult(RESULT_OK,intent);
+                                finish();
                             }else
                             {
                                 Log.e("error",e.toString());

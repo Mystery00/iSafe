@@ -409,7 +409,14 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent,REQUEST);
                 break;
             case R.id.image_menu_head:
-                startActivity(new Intent(MainActivity.this,SignInActivity.class));
+                User user= BmobUser.getCurrentUser(User.class);
+                if(user!=null)
+                {
+
+                }else
+                {
+                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                }
                 break;
         }
     }

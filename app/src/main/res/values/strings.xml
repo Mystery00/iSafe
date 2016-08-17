@@ -65,6 +65,8 @@
     <string name="toast_cancel_share">Share Cancel!</string>
     <string name="toast_complete_sign_up">Sign Up Success!</string>
     <string name="toast_cancel_sign_up">Sign Up Cancel!</string>
+    <string name="toast_complete_sign_in">Sign In Success!</string>
+    <string name="toast_cancel_sign_in">Sign In Cancel!</string>
 
     <string name="dialog_change_key_title">Change Key</string>
     <string name="dialog_change_key_message">Developer do not recommend that you change this value more often. This value influences the encryption of data. The different values may cause data loss, and may lead to a series of unknown bug. Please caution modification!</string>
