@@ -87,7 +87,6 @@ public class ShowActivity extends AppCompatActivity
         layout_password.getEditText().setText(this.getIntent().getStringExtra("password"));
 
         spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_item)));
-        spinner.setSelection(Integer.parseInt(this.getIntent().getStringExtra("item_type")), true);
         switch (this.getIntent().getStringExtra("type"))
         {
             case "Edit":
@@ -95,6 +94,7 @@ public class ShowActivity extends AppCompatActivity
                 layout_username.setVisibility(View.VISIBLE);
                 layout_password.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.VISIBLE);
+                spinner.setSelection(Integer.parseInt(this.getIntent().getStringExtra("item_type")), true);
                 break;
             case "Show":
                 show_title.setVisibility(View.VISIBLE);

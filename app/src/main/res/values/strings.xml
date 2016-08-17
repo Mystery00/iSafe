@@ -50,6 +50,8 @@
     <string name="error_username">Username Cannot be blank</string>
     <string name="error_password">Password Cannot be blank</string>
     <string name="error_contact">Contact Information Cannot be blank</string>
+    <string name="error_email">E-mail Cannot be blank</string>
+    <string name="error_repeat">Passwords Must Be Same</string>
 
     <string name="snack_bar_error_add">Please Complement Information!</string>
     <string name="snack_bar_error_change">The Key Unable!</string>
@@ -61,6 +63,8 @@
 
     <string name="toast_complete_share">Shared Success!</string>
     <string name="toast_cancel_share">Share Cancel!</string>
+    <string name="toast_complete_sign_up">Sign Up Success!</string>
+    <string name="toast_cancel_sign_up">Sign Up Cancel!</string>
 
     <string name="dialog_change_key_title">Change Key</string>
     <string name="dialog_change_key_message">Developer do not recommend that you change this value more often. This value influences the encryption of data. The different values may cause data loss, and may lead to a series of unknown bug. Please caution modification!</string>

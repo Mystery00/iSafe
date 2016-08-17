@@ -3,7 +3,8 @@ package com.mystery0.isafe.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,8 +17,8 @@ public class SignInActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
     private FloatingActionButton fab;
-    private TextInputEditText login_username;
-    private TextInputEditText login_password;
+    private TextInputLayout login_username;
+    private TextInputLayout login_password;
     private TextView text_new;
     private TextView text_forge;
     public static final int REQUEST=111;
@@ -38,8 +39,8 @@ public class SignInActivity extends AppCompatActivity
         ExitApplication.getInstance().addActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        login_username=(TextInputEditText)findViewById(R.id.login_username);
-        login_password=(TextInputEditText)findViewById(R.id.login_password);
+        login_username=(TextInputLayout)findViewById(R.id.login_username);
+        login_password=(TextInputLayout)findViewById(R.id.login_password);
         text_new=(TextView)findViewById(R.id.login_new);
         text_forge=(TextView)findViewById(R.id.login_forget);
 

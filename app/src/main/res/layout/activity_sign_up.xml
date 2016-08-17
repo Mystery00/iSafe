@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout_sign_up"
     android:fitsSystemWindows="true"
     tools:context="com.mystery0.isafe.Activity.SignUpActivity">
 

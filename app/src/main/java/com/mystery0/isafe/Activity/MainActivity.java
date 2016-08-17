@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity
             {
                 text_statues_verified.setText(getString(R.string.verified_null));
             }
+            text_menu_username.setText(user.getUsername());
         }
 
         setSupportActionBar(toolbar);
@@ -404,7 +405,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("title", "");
                 intent.putExtra("username", "");
                 intent.putExtra("password", "");
-                intent.putExtra("item_type",0);
+                intent.putExtra("item_type","");
                 startActivityForResult(intent,REQUEST);
                 break;
             case R.id.image_menu_head:
