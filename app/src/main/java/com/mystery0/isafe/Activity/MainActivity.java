@@ -23,10 +23,12 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mystery0.isafe.Adapter.ShowAdapter;
 import com.mystery0.isafe.BaseClass.SaveInfo;
+import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
@@ -38,10 +40,15 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private FloatingActionButton fab;
+    private TextView text_menu_username;
+    private TextView text_statues_verified;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -113,7 +120,10 @@ public class MainActivity extends AppCompatActivity
     {
         ExitApplication.getInstance().addActivity(this);
         tencent = Tencent.createInstance(getString(R.string.app_id), this.getApplicationContext());
+        Bmob.initialize(this, getString(R.string.application_id));
 
+        text_menu_username=(TextView)findViewById(R.id.text_menu_username);
+        text_statues_verified=(TextView)findViewById(R.id.verified_statues) ;
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
@@ -123,6 +133,18 @@ public class MainActivity extends AppCompatActivity
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_main);
         listView = (ListView) findViewById(R.id.listView);
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+
+        User user= BmobUser.getCurrentUser(User.class);
+        if(user!=null)
+        {
+            if(user.getEmailVerified())
+            {
+                text_statues_verified.setText(getString(R.string.verified_done));
+            }else
+            {
+                text_statues_verified.setText(getString(R.string.verified_null));
+            }
+        }
 
         setSupportActionBar(toolbar);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -386,7 +408,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent,REQUEST);
                 break;
             case R.id.image_menu_head:
-
+                startActivity(new Intent(MainActivity.this,SignInActivity.class));
                 break;
         }
     }

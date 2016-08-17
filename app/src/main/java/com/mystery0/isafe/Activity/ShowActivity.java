@@ -351,23 +351,23 @@ public class ShowActivity extends AppCompatActivity
                         {
                             SQLiteHelper data = new SQLiteHelper(ShowActivity.this, getString(R.string.data_base_file_name));
                             SQLiteDatabase db = data.getWritableDatabase();
+                            ContentValues values=new ContentValues();
                             try
                             {
-                                String title = layout_title.getEditText().getText().toString();
-                                String username = Cryptogram.JM(layout_username.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key)));
-                                String password = Cryptogram.JM(layout_password.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key)));
-                                db.execSQL(
-                                        "UPDATE " + getString(R.string.data_base_table_name) + " SET " +
-                                                "title='" + title + "' , " +
-                                                "username='" + username + "' , " +
-                                                "password='" + password + "' , " +
-                                                "item_type='" + item_type + "' " +
-                                                "WHERE " +
-                                                "title='" + getIntent().getStringExtra("title") + "' , " +
-                                                "username='" + Cryptogram.JM(getIntent().getStringExtra("username"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))) + "' , " +
-                                                "password='" + Cryptogram.JM(getIntent().getStringExtra("password"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))) + "' , " +
-                                                "item_type='" + getIntent().getStringExtra("item_type")+"'"
-                                );
+                                values.put("title",layout_title.getEditText().getText().toString());
+                                values.put("username",Cryptogram.JM(layout_username.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
+                                values.put("password",Cryptogram.JM(layout_password.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
+                                values.put("item_type",item_type);
+                                db.update(
+                                        getString(R.string.data_base_table_name),
+                                        values,
+                                        "title=? and username=? and password=? and item_type=?",
+                                        new String[]{
+                                                getIntent().getStringExtra("title"),
+                                                Cryptogram.JM(getIntent().getStringExtra("username"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))),
+                                                Cryptogram.JM(getIntent().getStringExtra("password"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))),
+                                                getIntent().getStringExtra("item_type")
+                                        });
                             } catch (Exception e)
                             {
                                 e.printStackTrace();

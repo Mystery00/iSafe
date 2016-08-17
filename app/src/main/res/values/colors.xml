@@ -5,4 +5,6 @@
     <color name="colorAccent">#3F51B5</color>
     <color name="pink">#FFC0CB</color>
     <color name="indigo">#CD5C5C</color>
+    <color name="text_color">#946d6d</color>
+    <color name="green">#228B22</color>
 </resources>
