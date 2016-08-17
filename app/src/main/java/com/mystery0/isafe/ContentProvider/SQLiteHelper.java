@@ -25,7 +25,7 @@ public class SQLiteHelper extends SQLiteOpenHelper
                 "create table src (id integer,version integer primary key autoincrement,username text,key text,kk integer)"
         );
         sqLiteDatabase.execSQL(
-                "create table kk (id integer primary key autoincrement,title text,username text,password text,type integer)"
+                "create table kk (id integer primary key autoincrement,title text,username text,password text,item_type text)"
         );
         sqLiteDatabase.execSQL(
                 "create table username (id integer,app text,username text,password integer primary key autoincrement)"

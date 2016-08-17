@@ -42,9 +42,9 @@ public class ShowActivity extends AppCompatActivity
     private TextView show_password;
     private CoordinatorLayout coordinatorLayout;
     private Spinner spinner;
-    private int item_type;
+    private String item_type;
     private String type;
-    private Intent intent=new Intent();
+    private Intent intent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,32 +62,32 @@ public class ShowActivity extends AppCompatActivity
     {
         ExitApplication.getInstance().addActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        type=this.getIntent().getStringExtra("type");
+        type = this.getIntent().getStringExtra("type");
         toolbar.setTitle(type);
         setSupportActionBar(toolbar);
-        item_type=getIntent().getIntExtra("item_type",0);
+        item_type = getIntent().getStringExtra("item_type");
 
-        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout_show);
-        spinner=(Spinner)findViewById(R.id.spinner);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_show);
+        spinner = (Spinner) findViewById(R.id.spinner);
 
         layout_title = (TextInputLayout) findViewById(R.id.layout_title);
         layout_username = (TextInputLayout) findViewById(R.id.layout_username);
         layout_password = (TextInputLayout) findViewById(R.id.layout_password);
 
-        show_title=(TextView)findViewById(R.id.show_text_title);
-        show_username=(TextView)findViewById(R.id.show_text_username);
-        show_password=(TextView)findViewById(R.id.show_text_password);
+        show_title = (TextView) findViewById(R.id.show_text_title);
+        show_username = (TextView) findViewById(R.id.show_text_username);
+        show_password = (TextView) findViewById(R.id.show_text_password);
 
-        show_title.setText("Title:"+this.getIntent().getStringExtra("title"));
-        show_username.setText("Username:"+this.getIntent().getStringExtra("username"));
-        show_password.setText("Password:"+this.getIntent().getStringExtra("password"));
+        show_title.setText("Title:" + this.getIntent().getStringExtra("title"));
+        show_username.setText("Username:" + this.getIntent().getStringExtra("username"));
+        show_password.setText("Password:" + this.getIntent().getStringExtra("password"));
 
         layout_title.getEditText().setText(this.getIntent().getStringExtra("title"));
         layout_username.getEditText().setText(this.getIntent().getStringExtra("username"));
         layout_password.getEditText().setText(this.getIntent().getStringExtra("password"));
 
-        spinner.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.spinner_item)));
-        spinner.setSelection(this.getIntent().getIntExtra("item_type",0),true);
+        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_item)));
+        spinner.setSelection(Integer.parseInt(this.getIntent().getStringExtra("item_type")), true);
         switch (this.getIntent().getStringExtra("type"))
         {
             case "Edit":
@@ -121,7 +121,7 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                if(Objects.equals(type, "Edit"))
+                if (Objects.equals(type, "Edit"))
                 {
                     toolbar.setTitle("Show");
                     toolbar.getMenu().findItem(R.id.action_edit).setVisible(true);
@@ -135,7 +135,8 @@ public class ShowActivity extends AppCompatActivity
                     layout_username.setVisibility(View.GONE);
                     layout_password.setVisibility(View.GONE);
                     spinner.setVisibility(View.GONE);
-                }else
+                    type="Show";
+                } else
                 {
                     setResult(RESULT_CANCELED, intent);
                     finish();
@@ -157,7 +158,7 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
-                if (layout_title.getEditText().getText().toString().length()==0)
+                if (layout_title.getEditText().getText().toString().length() == 0)
                 {
                     layout_title.setError(getString(R.string.error_title));
                 } else
@@ -181,7 +182,7 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
-                if (layout_username.getEditText().getText().toString().length()==0)
+                if (layout_username.getEditText().getText().toString().length() == 0)
                 {
                     layout_username.setError(getString(R.string.error_username));
                 } else
@@ -205,7 +206,7 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
-                if (layout_password.getEditText().getText().toString().length()==0)
+                if (layout_password.getEditText().getText().toString().length() == 0)
                 {
                     layout_password.setError(getString(R.string.error_password));
                 } else
@@ -219,7 +220,7 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
-                item_type=i;
+                item_type = Integer.toString(i);
             }
 
             @Override
@@ -232,10 +233,10 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                ClipboardManager clipboardManager=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 //noinspection deprecation
                 clipboardManager.setText(getIntent().getStringExtra("username"));
-                Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_copied),Snackbar.LENGTH_SHORT)
+                Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_copied), Snackbar.LENGTH_SHORT)
                         .show();
             }
         });
@@ -244,10 +245,10 @@ public class ShowActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                ClipboardManager clipboardManager=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 //noinspection deprecation
                 clipboardManager.setText(getIntent().getStringExtra("password"));
-                Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_copied),Snackbar.LENGTH_SHORT)
+                Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_copied), Snackbar.LENGTH_SHORT)
                         .show();
             }
         });
@@ -257,7 +258,7 @@ public class ShowActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        if(Objects.equals(type, "Edit"))
+        if (Objects.equals(type, "Edit"))
         {
             toolbar.setTitle("Show");
             toolbar.getMenu().findItem(R.id.action_edit).setVisible(true);
@@ -271,7 +272,8 @@ public class ShowActivity extends AppCompatActivity
             layout_username.setVisibility(View.GONE);
             layout_password.setVisibility(View.GONE);
             spinner.setVisibility(View.GONE);
-        }else
+            type="Show";
+        } else
         {
             setResult(RESULT_CANCELED, intent);
             finish();
@@ -300,6 +302,7 @@ public class ShowActivity extends AppCompatActivity
         return true;
     }
 
+    @SuppressLint("NewApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -310,68 +313,66 @@ public class ShowActivity extends AppCompatActivity
                 {
                     case "Add":
                         //noinspection ConstantConditions
-                        if (layout_title.getEditText().getText().toString().length()==0||
-                                layout_username.getEditText().getText().toString().length()==0||
-                                layout_password.getEditText().getText().toString().length()==0||
-                                item_type==0)
+                        if (layout_title.getEditText().getText().toString().length() == 0 ||
+                                layout_username.getEditText().getText().toString().length() == 0 ||
+                                layout_password.getEditText().getText().toString().length() == 0 ||
+                                Objects.equals(item_type, "0"))
                         {
                             Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_error_add), Snackbar.LENGTH_SHORT)
                                     .show();
-                        }
-                        else
+                        } else
                         {
-                            SQLiteHelper data=new SQLiteHelper(ShowActivity.this,getString(R.string.data_base_file_name));
-                            SQLiteDatabase db=data.getWritableDatabase();
-                            ContentValues values=new ContentValues();
+                            SQLiteHelper data = new SQLiteHelper(ShowActivity.this, getString(R.string.data_base_file_name));
+                            SQLiteDatabase db = data.getWritableDatabase();
+                            ContentValues values = new ContentValues();
                             values.put("title", layout_title.getEditText().getText().toString());
                             try
                             {
-                                values.put("username",Cryptogram.JM(layout_username.getEditText().getText().toString(),Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2","Mystery0"),
-                                        getString(R.string.true_key))));
-                                values.put("password",Cryptogram.JM(layout_password.getEditText().getText().toString(),Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2","Mystery0"),
-                                        getString(R.string.true_key))));
+                                values.put("username", Cryptogram.JM(layout_username.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
+                                values.put("password", Cryptogram.JM(layout_password.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
                             } catch (Exception e)
                             {
                                 e.printStackTrace();
                             }
-                            values.put("type",item_type);
-                            db.insert("kk",null,values);
-                            setResult(RESULT_OK,intent);
+                            values.put("item_type", item_type);
+                            db.insert("kk", null, values);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                         break;
                     case "Edit":
                         //noinspection ConstantConditions
-                        if (layout_title.getEditText().getText().toString().length()==0||
-                                layout_username.getEditText().getText().toString().length()==0||
-                                layout_password.getEditText().getText().toString().length()==0)
-                            Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_error_add),Snackbar.LENGTH_SHORT)
+                        if (layout_title.getEditText().getText().toString().length() == 0 ||
+                                layout_username.getEditText().getText().toString().length() == 0 ||
+                                layout_password.getEditText().getText().toString().length() == 0)
+                            Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_error_add), Snackbar.LENGTH_SHORT)
                                     .show();
                         else
                         {
-                            SQLiteHelper data=new SQLiteHelper(ShowActivity.this,getString(R.string.data_base_file_name));
-                            SQLiteDatabase db=data.getWritableDatabase();
-                            ContentValues values=new ContentValues();
-                            values.put("title", layout_title.getEditText().getText().toString());
+                            SQLiteHelper data = new SQLiteHelper(ShowActivity.this, getString(R.string.data_base_file_name));
+                            SQLiteDatabase db = data.getWritableDatabase();
                             try
                             {
-                                values.put("username",Cryptogram.JM(layout_username.getEditText().getText().toString(),Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2","Mystery0"),
-                                        getString(R.string.true_key))));
-                                values.put("password",Cryptogram.JM(layout_password.getEditText().getText().toString(),Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2","Mystery0"),
-                                        getString(R.string.true_key))));
+                                String title = layout_title.getEditText().getText().toString();
+                                String username = Cryptogram.JM(layout_username.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key)));
+                                String password = Cryptogram.JM(layout_password.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key)));
+                                db.execSQL(
+                                        "UPDATE " + getString(R.string.data_base_table_name) + " SET " +
+                                                "title='" + title + "' , " +
+                                                "username='" + username + "' , " +
+                                                "password='" + password + "' , " +
+                                                "item_type='" + item_type + "' " +
+                                                "WHERE " +
+                                                "title='" + getIntent().getStringExtra("title") + "' , " +
+                                                "username='" + Cryptogram.JM(getIntent().getStringExtra("username"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))) + "' , " +
+                                                "password='" + Cryptogram.JM(getIntent().getStringExtra("password"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))) + "' , " +
+                                                "item_type='" + getIntent().getStringExtra("item_type")+"'"
+                                );
                             } catch (Exception e)
                             {
                                 e.printStackTrace();
                             }
-                            values.put("type",item_type);
-                            db.update("kk",values,"title=? and username=?,password=?,type=?",
-                                    new String[]{
-                                            getIntent().getStringExtra("title"),
-                                            getIntent().getStringExtra("username"),
-                                            getIntent().getStringExtra("password"),
-                                            String.valueOf(getIntent().getIntExtra("item_type",0))
-                                    });
-                            setResult(RESULT_OK,intent);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                         break;
@@ -379,7 +380,7 @@ public class ShowActivity extends AppCompatActivity
                 break;
             case R.id.action_edit:
                 toolbar.setTitle(R.string.menu_edit);
-                type="Edit";
+                type = "Edit";
                 toolbar.getMenu().findItem(R.id.action_edit).setVisible(false);
                 toolbar.getMenu().findItem(R.id.action_finish).setVisible(true);
 

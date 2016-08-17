@@ -9,7 +9,7 @@ public class SaveInfo
     private String Title;
     private String Username;
     private String Password;
-    private int Type;
+    private String Type;
 
     public String getTitle()
     {
@@ -41,12 +41,12 @@ public class SaveInfo
         this.Password = password;
     }
 
-    public int getType()
+    public String getType()
     {
         return Type;
     }
 
-    public void setType(int type)
+    public void setType(String type)
     {
         this.Type = type;
     }

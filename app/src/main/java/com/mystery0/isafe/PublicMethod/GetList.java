@@ -27,10 +27,10 @@ public class GetList
         Cursor cursor;
         if(type==ALL)
         {
-            cursor=db.query(context.getString(R.string.data_base_table_name),new String[]{"title", "username", "password"}, null, null, null, null, null);
+            cursor=db.query(context.getString(R.string.data_base_table_name),new String[]{"id","title", "username", "password","item_type"}, null, null, null, null, null);
         }else
         {
-            cursor = db.query(context.getString(R.string.data_base_table_name), new String[]{"title", "username", "password","type"}, "type=?", new String[]{""+type}, null, null, null);
+            cursor = db.query(context.getString(R.string.data_base_table_name), new String[]{"id","title", "username", "password","item_type"}, "item_type=?", new String[]{""+type}, null, null, null);
         }
         while (cursor.moveToNext())
         {
@@ -40,16 +40,15 @@ public class GetList
             {
                 saveInfo.setUsername(
                         Cryptogram.JX(cursor.getString(cursor.getColumnIndex("username")),
-                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2","Mystery0"),
-                                context.getString(R.string.true_key))));
+                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2",context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key6",context.getString(R.string.app_name))), context.getString(R.string.true_key))));
                 saveInfo.setPassword(
                         Cryptogram.JX(cursor.getString(cursor.getColumnIndex("password")),
-                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2","Mystery0"),
-                                context.getString(R.string.true_key))));
+                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2",context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key6",context.getString(R.string.app_name))), context.getString(R.string.true_key))));
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
+            saveInfo.setType(cursor.getString(cursor.getColumnIndex("item_type")));
             saveInfoArrayList.add(saveInfo);
         }
         cursor.close();

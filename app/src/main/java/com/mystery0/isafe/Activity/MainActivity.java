@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
                                         .putString("key3", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key2)))
                                         .putString("key4", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key3)))
                                         .putString("key5", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key4)))
+                                        .putString("key6", Cryptogram.JM(java.util.UUID.randomUUID().toString(),getString(R.string.app_name)))
                                         .apply();
                             } catch (Exception e)
                             {
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("title", saveInfo.getTitle());
                 intent.putExtra("username", saveInfo.getUsername());
                 intent.putExtra("password", saveInfo.getPassword());
-                intent.putExtra("item_type", checked);
+                intent.putExtra("item_type", saveInfo.getType());
                 startActivity(intent);
             }
         });
@@ -385,6 +386,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(intent,REQUEST);
                 break;
             case R.id.image_menu_head:
+
                 break;
         }
     }
