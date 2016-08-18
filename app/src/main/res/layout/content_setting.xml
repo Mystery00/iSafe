@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,9 +13,6 @@
     tools:context="com.mystery0.isafe.Activity.SettingActivity"
     tools:showIn="@layout/activity_setting">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:id="@+id/setting_list"
-        android:layout_height="wrap_content"/>
+    
 
-</RelativeLayout>
+</LinearLayout>

@@ -109,7 +109,7 @@ public class SignInActivity extends AppCompatActivity
                 login_password.getEditText().getText().toString().length()!=0)
         {
             final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this);
-            progressDialog.setMessage("Loading...");
+            progressDialog.setMessage(getString(R.string.dialog_feedback_title));
             progressDialog.setCancelable(true);
             progressDialog.show();
             User user = new User();
@@ -129,6 +129,17 @@ public class SignInActivity extends AppCompatActivity
                     progressDialog.dismiss();
                     if (e == null)
                     {
+                        try
+                        {
+                            getSharedPreferences("key",MODE_PRIVATE)
+                                    .edit()
+                                    .putString("key",Cryptogram.JM(login_username.getEditText().getText().toString(), getString(R.string.username)))
+                                    .putString("keyKey",Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
+                                    .apply();
+                        } catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
                         Toast.makeText(SignInActivity.this, getString(R.string.toast_complete_sign_in), Toast.LENGTH_SHORT).show();
                         finish();
                     } else

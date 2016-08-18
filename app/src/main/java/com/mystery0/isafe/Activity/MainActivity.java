@@ -1,5 +1,6 @@
 package com.mystery0.isafe.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,6 +43,8 @@ import com.tencent.tauth.UiError;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
@@ -58,7 +61,8 @@ public class MainActivity extends AppCompatActivity
     private SwipeRefreshLayout swipeRefreshLayout;
     private Tencent tencent;
     private int checked = 0;
-    public static final int REQUEST=11;
+    public static final int REQUEST_EDIT =11;
+    public static final int REQUEST_SIGN_IN=22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -122,11 +126,11 @@ public class MainActivity extends AppCompatActivity
         tencent = Tencent.createInstance(getString(R.string.app_id), this.getApplicationContext());
         Bmob.initialize(this, getString(R.string.application_id));
 
-        text_menu_username=(TextView)findViewById(R.id.text_menu_username);
-        text_statues_verified=(TextView)findViewById(R.id.verified_statues) ;
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
+        text_menu_username=(TextView)headerLayout.findViewById(R.id.text_menu_username);
+        text_statues_verified=(TextView)headerLayout.findViewById(R.id.verified_statues) ;
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         img_head = (CircleImageView) headerLayout.findViewById(R.id.image_menu_head);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -134,17 +138,53 @@ public class MainActivity extends AppCompatActivity
         listView = (ListView) findViewById(R.id.listView);
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 
-        User user= BmobUser.getCurrentUser(User.class);
-        if(user!=null)
+        final User localUser=BmobUser.getCurrentUser(User.class);
+        if(localUser!=null)
         {
-            if(user.getEmailVerified())
+            if(localUser.getEmailVerified())
             {
                 text_statues_verified.setText(getString(R.string.verified_done));
             }else
             {
                 text_statues_verified.setText(getString(R.string.verified_null));
             }
-            text_menu_username.setText(user.getUsername());
+            text_menu_username.setText(localUser.getUsername());
+
+            final ProgressDialog progressDialog=new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage(getString(R.string.dialog_feedback_title));
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            User user=new User();
+            try
+            {
+                user.setUsername(Cryptogram.JX(getSharedPreferences("key",MODE_PRIVATE).getString("key","null"), getString(R.string.username)));
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            user.login(new SaveListener<User>()
+            {
+                @Override
+                public void done(User user, BmobException e)
+                {
+                    progressDialog.dismiss();
+                    if(e==null)
+                    {
+                        Log.i("info","登陆成功");
+                        if (user.getEmailVerified())
+                        {
+                            text_statues_verified.setText(getString(R.string.verified_done));
+                        } else
+                        {
+                            text_statues_verified.setText(getString(R.string.verified_null));
+                        }
+                    }else
+                    {
+                        Log.e("error", e.toString());
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
 
         setSupportActionBar(toolbar);
@@ -406,16 +446,16 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("username", "");
                 intent.putExtra("password", "");
                 intent.putExtra("item_type","");
-                startActivityForResult(intent,REQUEST);
+                startActivityForResult(intent, REQUEST_EDIT);
                 break;
             case R.id.image_menu_head:
                 User user= BmobUser.getCurrentUser(User.class);
                 if(user!=null)
                 {
-
+                    //startActivity(new Intent(MainActivity.this,));
                 }else
                 {
-                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                    startActivityForResult(new Intent(MainActivity.this, SignInActivity.class),REQUEST_SIGN_IN);
                 }
                 break;
         }
@@ -424,21 +464,37 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(requestCode==REQUEST)
+        switch (requestCode)
         {
-            if (resultCode==RESULT_OK)
-            {
-                swipeRefreshLayout.setRefreshing(true);
-                new Handler().postDelayed(new Runnable()
+            case REQUEST_EDIT:
+                if (resultCode==RESULT_OK)
                 {
-                    @Override
-                    public void run()
+                    swipeRefreshLayout.setRefreshing(true);
+                    new Handler().postDelayed(new Runnable()
                     {
-                        showList(MainActivity.this,checked);
-                        swipeRefreshLayout.setRefreshing(false);
+                        @Override
+                        public void run()
+                        {
+                            showList(MainActivity.this,checked);
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    },2000);
+                }
+                break;
+            case REQUEST_SIGN_IN:
+                User localUser=BmobUser.getCurrentUser(User.class);
+                if(localUser!=null)
+                {
+                    if (localUser.getEmailVerified())
+                    {
+                        text_statues_verified.setText(getString(R.string.verified_done));
+                    } else
+                    {
+                        text_statues_verified.setText(getString(R.string.verified_null));
                     }
-                },2000);
-            }
+                    text_menu_username.setText(localUser.getUsername());
+                }
+                break;
         }
     }
 
