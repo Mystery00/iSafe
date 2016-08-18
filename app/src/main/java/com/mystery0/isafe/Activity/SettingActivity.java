@@ -72,7 +72,9 @@ public class SettingActivity extends AppCompatActivity
                 {
                     case 0://Profile
                         break;
-                    case 1://Share
+                    case 1://Language
+                        break;
+                    case 2://Share With Friends
                         new AlertDialog.Builder(SettingActivity.this)
                                 .setItems(R.array.Share_Menu, new DialogInterface.OnClickListener()
                                 {
@@ -144,10 +146,10 @@ public class SettingActivity extends AppCompatActivity
                                 })
                                 .show();
                         break;
-                    case 2:
+                    case 3://Feed Back
                         startActivity(new Intent(SettingActivity.this, FeedBackActivity.class));
                         break;
-                    case 3:
+                    case 4://About Us
                         new AlertDialog.Builder(SettingActivity.this)
                                 .setView(R.layout.dialog_about_us)
                                 .setNegativeButton("Ok", null)

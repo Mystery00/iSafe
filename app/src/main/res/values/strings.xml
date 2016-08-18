@@ -88,6 +88,7 @@
     <string name="title_activity_sign_up">Sign up</string>
 
     <string name="text_setting_personal">My Profile</string>
+    <string name="text_setting_language">Language</string>
     <string name="text_setting_share">Share With Friends</string>
     <string name="text_setting_send">Send Feedback</string>
     <string name="text_setting_about">About Us</string>

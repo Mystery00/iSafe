@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
+            android:imeOptions="actionDone"
             android:theme="@style/MyEditText"
             android:layout_height="wrap_content"/>
 
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:id="@+id/login_username"
         android:layout_margin="@dimen/login_margin"
+        android:imeOptions="actionNext"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/MyErrorText"
         android:layout_above="@id/login_password"

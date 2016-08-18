@@ -25,6 +25,7 @@
         <EditText
             android:layout_width="match_parent"
             android:hint="@string/hint_username"
+            android:imeOptions="actionNext"
             android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@"
             android:theme="@style/MyEditText"
             android:layout_height="wrap_content"/>
@@ -44,6 +45,7 @@
             android:layout_width="match_parent"
             android:hint="@string/hint_password"
             android:theme="@style/MyEditText"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:layout_height="wrap_content"/>
 
@@ -62,6 +64,7 @@
             android:layout_width="match_parent"
             android:hint="@string/hint_re_password"
             android:theme="@style/MyEditText"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:layout_height="wrap_content"/>
 
@@ -80,6 +83,7 @@
             android:layout_width="match_parent"
             android:inputType="textEmailAddress"
             android:theme="@style/MyEditText"
+            android:imeOptions="actionDone"
             android:hint="@string/hint_email"
             android:layout_height="wrap_content"/>
 

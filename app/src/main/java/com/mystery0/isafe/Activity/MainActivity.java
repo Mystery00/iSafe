@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity
             try
             {
                 user.setUsername(Cryptogram.JX(getSharedPreferences("key",MODE_PRIVATE).getString("key","null"), getString(R.string.username)));
+                user.setPassword(Cryptogram.JX(getSharedPreferences("key",MODE_PRIVATE).getString("keyKey","null"),getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")));
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -163,7 +164,6 @@ public class MainActivity extends AppCompatActivity
                     progressDialog.dismiss();
                     if(e==null)
                     {
-                        Log.i("info","登陆成功");
                         if (user.getEmailVerified())
                         {
                             text_statues_verified.setText(getString(R.string.verified_done));
