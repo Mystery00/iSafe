@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
+import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.R;
 
 import java.util.Objects;
@@ -48,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity
 
     private void initialization()
     {
+        ExitApplication.getInstance().addActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         sign_username=(TextInputLayout)findViewById(R.id.sign_username);
         sign_password=(TextInputLayout)findViewById(R.id.sign_password);

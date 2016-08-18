@@ -10,7 +10,7 @@ import com.mystery0.isafe.R;
 
 import java.util.ArrayList;
 
-public class GetList
+public class GetInfoList
 {
     public static final int ALL=0;
     public static final int COMPUTER=1;

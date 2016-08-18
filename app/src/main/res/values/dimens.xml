@@ -21,6 +21,12 @@
     <!--Login Activity-->
     <dimen name="login_margin">10dp</dimen>
     <dimen name="login_fab_margin">40dp</dimen>
+    <!--Setting Activity Item-->
+    <dimen name="layout_height">50dp</dimen>
+    <dimen name="item_text_size">18sp</dimen>
+    <dimen name="item_icon_size">30dp</dimen>
+    <dimen name="item_text_layout_size">40dp</dimen>
+    <dimen name="item__setting_margin">5dp</dimen>
 
     <dimen name="small_margin">8dp</dimen>
     <dimen name="CircleImageView">80dp</dimen>

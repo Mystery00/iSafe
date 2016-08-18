@@ -33,13 +33,8 @@ import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
-import com.mystery0.isafe.PublicMethod.GetList;
+import com.mystery0.isafe.PublicMethod.GetInfoList;
 import com.mystery0.isafe.R;
-import com.tencent.connect.share.QQShare;
-import com.tencent.connect.share.QzoneShare;
-import com.tencent.tauth.IUiListener;
-import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
@@ -59,7 +54,6 @@ public class MainActivity extends AppCompatActivity
     private CircleImageView img_head;
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Tencent tencent;
     private int checked = 0;
     public static final int REQUEST_EDIT =11;
     public static final int REQUEST_SIGN_IN=22;
@@ -123,7 +117,6 @@ public class MainActivity extends AppCompatActivity
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
-        tencent = Tencent.createInstance(getString(R.string.app_id), this.getApplicationContext());
         Bmob.initialize(this, getString(R.string.application_id));
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -209,7 +202,7 @@ public class MainActivity extends AppCompatActivity
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        showList(MainActivity.this, GetList.ALL);
+        showList(MainActivity.this, GetInfoList.ALL);
     }
 
     private void monitor()
@@ -230,7 +223,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                SaveInfo saveInfo = GetList.getList(MainActivity.this, checked).get(i);
+                SaveInfo saveInfo = GetInfoList.getList(MainActivity.this, checked).get(i);
                 Intent intent = new Intent(MainActivity.this, ShowActivity.class);
                 intent.putExtra("type", "Show");
                 intent.putExtra("title", saveInfo.getTitle());
@@ -302,8 +295,7 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
             case R.id.action_settings:
-                Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
-                        .show();
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -316,115 +308,33 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.item_all:
                 checked = 0;
-                showList(MainActivity.this, GetList.ALL);
+                showList(MainActivity.this, GetInfoList.ALL);
                 break;
             case R.id.item_computer:
                 checked = 1;
-                showList(MainActivity.this, GetList.COMPUTER);
+                showList(MainActivity.this, GetInfoList.COMPUTER);
                 break;
             case R.id.item_Internet:
                 checked = 2;
-                showList(MainActivity.this, GetList.INTERNET);
+                showList(MainActivity.this, GetInfoList.INTERNET);
                 break;
             case R.id.item_Email:
                 checked = 3;
-                showList(MainActivity.this, GetList.E_MAIL);
+                showList(MainActivity.this, GetInfoList.E_MAIL);
                 break;
             case R.id.item_game:
                 checked = 4;
-                showList(MainActivity.this, GetList.GAME);
+                showList(MainActivity.this, GetInfoList.GAME);
                 break;
             case R.id.item_member:
                 checked = 5;
-                showList(MainActivity.this, GetList.MEMBER);
+                showList(MainActivity.this, GetInfoList.MEMBER);
                 break;
             case R.id.item_cloud:
                 break;
 
             case R.id.nav_setting://Setting
-                Snackbar.make(coordinatorLayout, "Test", Snackbar.LENGTH_SHORT)
-                        .show();
-                break;
-            case R.id.nav_share://Share with friends
-                new AlertDialog.Builder(this)
-                        .setItems(R.array.Share_Menu, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i)
-                            {
-                                final Bundle params = new Bundle();
-                                switch (i)
-                                {
-                                    case 0:
-                                        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                                        params.putString(QQShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));
-                                        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));
-                                        //params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,);
-                                        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));
-                                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getString(R.string.app_name));
-                                        tencent.shareToQQ(MainActivity.this, params, new IUiListener()
-                                        {
-                                            @Override
-                                            public void onComplete(Object o)
-                                            {
-                                                Toast.makeText(MainActivity.this, getString(R.string.toast_complete_share), Toast.LENGTH_SHORT)
-                                                        .show();
-                                            }
-
-                                            @Override
-                                            public void onError(UiError uiError)
-                                            {
-                                                Log.e("error", uiError.toString());
-                                            }
-
-                                            @Override
-                                            public void onCancel()
-                                            {
-                                                Toast.makeText(MainActivity.this, getString(R.string.toast_cancel_share), Toast.LENGTH_SHORT)
-                                                        .show();
-                                            }
-                                        });
-                                        break;
-                                    case 1:
-                                        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));//必填
-                                        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));//选填
-                                        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));//必填
-                                        tencent.shareToQzone(MainActivity.this, params, new IUiListener()
-                                        {
-                                            @Override
-                                            public void onComplete(Object o)
-                                            {
-                                                Toast.makeText(MainActivity.this, getString(R.string.toast_complete_share), Toast.LENGTH_SHORT)
-                                                        .show();
-                                            }
-
-                                            @Override
-                                            public void onError(UiError uiError)
-                                            {
-                                                Log.e("error", uiError.toString());
-                                            }
-
-                                            @Override
-                                            public void onCancel()
-                                            {
-                                                Toast.makeText(MainActivity.this, getString(R.string.toast_cancel_share), Toast.LENGTH_SHORT)
-                                                        .show();
-                                            }
-                                        });
-                                        break;
-                                }
-                            }
-                        })
-                        .show();
-                break;
-            case R.id.nav_send://Feedback
-                startActivity(new Intent(MainActivity.this, FeedBackActivity.class));
-                break;
-            case R.id.nav_about://About Us
-                new AlertDialog.Builder(this)
-                        .setView(R.layout.dialog_about_us)
-                        .setNegativeButton("Ok", null)
-                        .show();
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
                 break;
             case R.id.nav_exit://Exit App
                 ExitApplication.getInstance().exit();
@@ -500,7 +410,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showList(Context context, int type)
     {
-        ShowAdapter showAdapter = new ShowAdapter(context, GetList.getList(context, type));
+        ShowAdapter showAdapter = new ShowAdapter(context, GetInfoList.getList(context, type));
         listView.setAdapter(showAdapter);
     }
 }

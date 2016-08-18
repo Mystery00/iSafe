@@ -22,14 +22,11 @@
     <string name="wrong_key3">HhHhHhVXDey</string>
     <string name="wrong_key4">HhHhHhCEgHUy</string>
 
-    <string name="menu_send">Send Feedback</string>
-    <string name="menu_share">Share With Friends</string>
     <string name="menu_communicate">Communicate</string>
     <string name="menu_exit">Exit</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_finish">Finish</string>
     <string name="menu_edit">Edit</string>
-    <string name="menu_about_us">About Us</string>
 
     <string name="item_all">All</string>
     <string name="item_computer">Computer</string>
@@ -89,4 +86,9 @@
 
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
+
+    <string name="text_setting_personal">My Profile</string>
+    <string name="text_setting_share">Share With Friends</string>
+    <string name="text_setting_send">Send Feedback</string>
+    <string name="text_setting_about">About Us</string>
 </resources>
