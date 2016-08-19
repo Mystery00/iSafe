@@ -20,6 +20,7 @@ public class GetSettingList
         arrayList.add(settingItem);
 
         settingItem=new SettingItem();
+        settingItem.setImg(R.drawable.ic_language);
         settingItem.setText(context.getString(R.string.text_setting_language));
         arrayList.add(settingItem);
 
