@@ -179,7 +179,7 @@ public class SignInActivity extends AppCompatActivity
                         {
                             getSharedPreferences("key",MODE_PRIVATE)
                                     .edit()
-                                    .putString("key",Cryptogram.JM(login_username.getEditText().getText().toString(), getString(R.string.username)))
+                                    .putString("key",Cryptogram.JM(login_username.getEditText().getText().toString(), getString(R.string.text_username)))
                                     .putString("keyKey",Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key1", "null")))
                                     .apply();
                         } catch (Exception e1)

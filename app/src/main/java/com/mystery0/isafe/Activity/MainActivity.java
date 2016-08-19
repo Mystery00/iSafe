@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity
                             {
                                 getSharedPreferences("key", MODE_PRIVATE)
                                         .edit()
-                                        .putString("key1", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key1)))
+                                        .putString("key1", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key1)))
                                         .putString("key6", Cryptogram.JM(java.util.UUID.randomUUID().toString(), getString(R.string.app_name)))
                                         .putString("key2", Cryptogram.JM(editText.getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
-                                        .putString("key3", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key2)))
-                                        .putString("key4", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key3)))
-                                        .putString("key5", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key4)))
+                                        .putString("key3", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key2)))
+                                        .putString("key4", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key3)))
+                                        .putString("key5", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key4)))
                                         .apply();
                                 getSharedPreferences("kk", MODE_PRIVATE)
                                         .edit()
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity
             User user = new User();
             try
             {
-                user.setUsername(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key", "null"), getString(R.string.username)));
+                user.setUsername(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key", "null"), getString(R.string.text_username)));
                 user.setPassword(Cryptogram.JM(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("keyKey", "null"), getSharedPreferences("key", MODE_PRIVATE).getString("key1", "null")), getSharedPreferences("key", MODE_PRIVATE).getString("key3", "null")));
             } catch (Exception e)
             {

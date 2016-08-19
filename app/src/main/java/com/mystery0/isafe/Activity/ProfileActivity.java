@@ -2,6 +2,7 @@ package com.mystery0.isafe.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,11 +10,15 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mystery0.isafe.BaseClass.User;
@@ -39,6 +44,10 @@ public class ProfileActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_small;
     private ImageView img;
+    private RelativeLayout layout_change_password;
+    private RelativeLayout layout_change_email;
+    private RelativeLayout layout_change_head;
+    private RelativeLayout layout_logout;
     private static final int REQUEST_IMG = 11;
 
     @Override
@@ -60,6 +69,17 @@ public class ProfileActivity extends AppCompatActivity
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         img_small = (CircleImageView) collapsingToolbarLayout.findViewById(R.id.img_circle);
         img = (ImageView) collapsingToolbarLayout.findViewById(R.id.img);
+        TextView text_username = (TextView) findViewById(R.id.text_username);
+        TextView text_email = (TextView) findViewById(R.id.text_email);
+        TextView text_key = (TextView) findViewById(R.id.text_key);
+        layout_change_password=(RelativeLayout)findViewById(R.id.layout_profile_change_password);
+        layout_change_email=(RelativeLayout)findViewById(R.id.layout_profile_change_email);
+        layout_change_head=(RelativeLayout)findViewById(R.id.layout_profile_change_head);
+        layout_logout=(RelativeLayout)findViewById(R.id.layout_profile_logout);
+
+        text_username.setText(BmobUser.getCurrentUser(User.class).getUsername());
+        text_email.setText(BmobUser.getCurrentUser(User.class).getEmail());
+        text_key.setText(BmobUser.getCurrentUser(User.class).getOne_key());
         if (BitmapFactory.decodeFile(getSharedPreferences("kk", MODE_PRIVATE).getString("head", null)) != null)
         {
             img.setImageBitmap(BitmapFactory.decodeFile(getSharedPreferences("kk", MODE_PRIVATE).getString("head", null)));
@@ -87,6 +107,43 @@ public class ProfileActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 ChooseImg();
+            }
+        });
+        layout_change_password.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(final View view)
+            {
+                EditText Old=new EditText(ProfileActivity.this);
+                EditText New=new EditText(ProfileActivity.this);
+                new AlertDialog.Builder(ProfileActivity.this)
+                        .setView(Old)
+                        .setNegativeButton(getString(R.string.cancel),null)
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+
+                            }
+                        })
+                        .show();
+            }
+        });
+        layout_change_email.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+            }
+        });
+        layout_change_head.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
             }
         });
     }

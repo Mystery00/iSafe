@@ -87,37 +87,88 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/show_text_title"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/text_height"
-                android:gravity="center_vertical"
-                android:text="@string/hint_title"
-                android:textSize="@dimen/text_size"
-                android:theme="@style/MyEditText"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:id="@+id/show_title"
+                android:layout_height="@dimen/text_height">
 
-            <TextView
-                android:id="@+id/show_text_username"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/text_height"
-                android:layout_below="@id/show_text_title"
-                android:gravity="center_vertical"
-                android:text="@string/hint_username"
-                android:textSize="@dimen/text_size"
-                android:theme="@style/MyEditText"
-                android:visibility="gone"/>
+                <ImageView
+                    android:layout_width="@dimen/img_size"
+                    android:id="@+id/img_title"
+                    android:src="@drawable/ic_title"
+                    android:layout_margin="@dimen/img_margin"
+                    android:contentDescription="@string/hint_title"
+                    android:layout_height="@dimen/img_size"/>
 
-            <TextView
-                android:id="@+id/show_text_password"
+                <TextView
+                    android:id="@+id/show_text_title"
+                    android:layout_width="match_parent"
+                    android:layout_toRightOf="@id/img_title"
+                    android:layout_toEndOf="@id/img_title"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/hint_title"
+                    android:textSize="@dimen/text_size"
+                    android:theme="@style/MyEditText"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/text_height"
-                android:layout_below="@id/show_text_username"
-                android:gravity="center_vertical"
-                android:text="@string/hint_password"
-                android:textSize="@dimen/text_size"
-                android:theme="@style/MyEditText"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:id="@+id/show_username"
+                android:layout_below="@id/show_title"
+                android:layout_height="@dimen/text_height">
+
+                <ImageView
+                    android:layout_width="@dimen/img_size"
+                    android:id="@+id/img_username"
+                    android:src="@drawable/ic_username"
+                    android:layout_margin="@dimen/img_margin"
+                    android:contentDescription="@string/hint_username"
+                    android:layout_height="@dimen/img_size"/>
+
+                <TextView
+                    android:id="@+id/show_text_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_height"
+                    android:gravity="center_vertical"
+                    android:text="@string/hint_username"
+                    android:layout_toRightOf="@id/img_username"
+                    android:layout_toEndOf="@id/img_username"
+                    android:textSize="@dimen/text_size"
+                    android:theme="@style/MyEditText"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:id="@+id/show_password"
+                android:layout_below="@id/show_username"
+                android:layout_height="@dimen/text_height">
+
+                <ImageView
+                    android:layout_width="@dimen/img_size"
+                    android:id="@+id/img_password"
+                    android:src="@drawable/ic_password"
+                    android:layout_margin="@dimen/img_margin"
+                    android:contentDescription="@string/hint_password"
+                    android:layout_height="@dimen/img_size"/>
+
+                <TextView
+                    android:id="@+id/show_text_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_height"
+                    android:gravity="center_vertical"
+                    android:layout_toEndOf="@id/img_password"
+                    android:layout_toRightOf="@id/img_password"
+                    android:text="@string/hint_password"
+                    android:textSize="@dimen/text_size"
+                    android:theme="@style/MyEditText"/>
+
+            </RelativeLayout>
 
             <Spinner
                 android:layout_width="match_parent"

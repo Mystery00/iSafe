@@ -13,7 +13,6 @@
     <string name="action_changeKey">Change Key</string>
     <string name="action_setting">Setting</string>
 
-    <string name="username">Username</string>
     <string name="verified_done">Verified</string>
     <string name="verified_null">Unverified</string>
 
@@ -44,6 +43,9 @@
     <string name="hint_email">Please Enter E-mail</string>
     <string name="hint_feed_message">Please Enter Message</string>
     <string name="hint_contact">Please Enter Your Contact Information</string>
+    <string name="hint_change_password_old">Enter Old Password</string>
+    <string name="hint_change_password_new">Enter New Password</string>
+
     <string name="error_title">Title Cannot be blank</string>
     <string name="error_username">Username Cannot be blank</string>
     <string name="error_password">Password Cannot be blank</string>
@@ -94,13 +96,21 @@
     <string name="information_share_summary">A laconic and useful APP</string>
     <string name="information_share_url">https://www.google.com</string>
 
-    <string name="text_new">New Friend</string>
-    <string name="text_forget">Forget?</string>
-
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
     <string name="title_choose_file">Please Choose A Folder</string>
     <string name="title_activity_profile">Profile</string>
+
+    <string name="text_new">New Friend</string>
+    <string name="text_forget">Forget?</string>
+
+    <string name="text_username">Username</string>
+    <string name="text_email">E-mail</string>
+    <string name="text_key">Key</string>
+    <string name="text_change_password">Change password</string>
+    <string name="text_change_email">Change E-mail</string>
+    <string name="text_change_avatar">Change Avatar</string>
+    <string name="text_logout">Logout</string>
 
     <string name="text_setting_personal">My Profile</string>
     <string name="text_setting_language">Language</string>

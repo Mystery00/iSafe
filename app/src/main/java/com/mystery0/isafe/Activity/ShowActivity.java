@@ -14,12 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,9 +37,9 @@ public class ShowActivity extends AppCompatActivity
     private TextInputLayout layout_title;
     private TextInputLayout layout_username;
     private TextInputLayout layout_password;
-    private TextView show_title;
-    private TextView show_username;
-    private TextView show_password;
+    private RelativeLayout show_title;
+    private RelativeLayout show_username;
+    private RelativeLayout show_password;
     private CoordinatorLayout coordinatorLayout;
     private Spinner spinner;
     private String item_type;
@@ -74,13 +74,17 @@ public class ShowActivity extends AppCompatActivity
         layout_username = (TextInputLayout) findViewById(R.id.layout_username);
         layout_password = (TextInputLayout) findViewById(R.id.layout_password);
 
-        show_title = (TextView) findViewById(R.id.show_text_title);
-        show_username = (TextView) findViewById(R.id.show_text_username);
-        show_password = (TextView) findViewById(R.id.show_text_password);
+        show_title = (RelativeLayout) findViewById(R.id.show_title);
+        show_username = (RelativeLayout) findViewById(R.id.show_username);
+        show_password = (RelativeLayout) findViewById(R.id.show_password);
 
-        show_title.setText("Title:" + this.getIntent().getStringExtra("title"));
-        show_username.setText("Username:" + this.getIntent().getStringExtra("username"));
-        show_password.setText("Password:" + this.getIntent().getStringExtra("password"));
+        TextView show_text_title = (TextView) findViewById(R.id.show_text_title);
+        TextView show_text_username = (TextView) findViewById(R.id.show_text_username);
+        TextView show_text_password = (TextView) findViewById(R.id.show_text_password);
+
+        show_text_title.setText(this.getIntent().getStringExtra("title"));
+        show_text_username.setText(this.getIntent().getStringExtra("username"));
+        show_text_password.setText(this.getIntent().getStringExtra("password"));
 
         layout_title.getEditText().setText(this.getIntent().getStringExtra("title"));
         layout_username.getEditText().setText(this.getIntent().getStringExtra("username"));
