@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mystery0.isafe.Adapter.SettingItemAdapter;
+import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.PublicMethod.CopyFile;
 import com.mystery0.isafe.PublicMethod.DeleteFile;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
@@ -33,6 +34,8 @@ import com.tencent.tauth.UiError;
 import java.io.File;
 import java.io.IOException;
 
+import cn.bmob.v3.BmobUser;
+
 public class SettingActivity extends AppCompatActivity
 {
     private Tencent tencent;
@@ -41,7 +44,6 @@ public class SettingActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private static final int REQUEST_BACKUP = 1111;
     private static final int REQUEST_RESTORE = 2222;
-    private static final int REQUEST_DELETE = 3333;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,6 +90,14 @@ public class SettingActivity extends AppCompatActivity
                 switch (i)
                 {
                     case 0://Profile
+                        User user= BmobUser.getCurrentUser(User.class);
+                        if(user!=null)
+                        {
+                            startActivity(new Intent(SettingActivity.this,ProfileActivity.class));
+                        }else
+                        {
+                            startActivity(new Intent(SettingActivity.this,SignInActivity.class));
+                        }
                         break;
                     case 1://Language
                         break;
@@ -96,7 +106,7 @@ public class SettingActivity extends AppCompatActivity
                                 .setTitle(R.string.text_setting_backup)
                                 .setMessage(R.string.dialog_backup_message)
                                 .setIcon(R.drawable.ic_backup)
-                                .setNegativeButton("Backup", new DialogInterface.OnClickListener()
+                                .setNegativeButton(getString(R.string.backup), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
@@ -104,7 +114,7 @@ public class SettingActivity extends AppCompatActivity
                                         showFileChooser(REQUEST_BACKUP);
                                     }
                                 })
-                                .setPositiveButton("Restore", new DialogInterface.OnClickListener()
+                                .setPositiveButton(getString(R.string.restore), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
@@ -119,8 +129,8 @@ public class SettingActivity extends AppCompatActivity
                                 .setTitle(R.string.text_setting_delete)
                                 .setIcon(R.drawable.ic_delete)
                                 .setMessage(R.string.dialog_delete_message)
-                                .setNegativeButton("Cancel",null)
-                                .setPositiveButton("Delete", new DialogInterface.OnClickListener()
+                                .setNegativeButton(getString(R.string.cancel),null)
+                                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
@@ -211,7 +221,7 @@ public class SettingActivity extends AppCompatActivity
                     case 6://About Us
                         new AlertDialog.Builder(SettingActivity.this)
                                 .setView(R.layout.dialog_about_us)
-                                .setNegativeButton("Ok", null)
+                                .setNegativeButton(getString(R.string.ok), null)
                                 .show();
                         break;
                 }

@@ -35,10 +35,11 @@
         android:layout_marginStart="@dimen/small_margin"
         android:layout_marginLeft="@dimen/small_margin"
         android:text="@string/verified_null"
+        android:gravity="center"
         android:textColor="@color/text_color"
         android:layout_margin="@dimen/text_verified_margin"
         android:background="@android:color/holo_green_light"
         android:textSize="@dimen/text_verified_statues"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

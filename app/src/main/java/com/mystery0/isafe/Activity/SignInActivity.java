@@ -1,17 +1,18 @@
 package com.mystery0.isafe.Activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +21,10 @@ import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.R;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class SignInActivity extends AppCompatActivity
 {
@@ -30,7 +33,7 @@ public class SignInActivity extends AppCompatActivity
     private TextInputLayout login_username;
     private TextInputLayout login_password;
     private TextView text_new;
-    private TextView text_forge;
+    private TextView text_forget;
     public static final int REQUEST=111;
 
     @Override
@@ -52,7 +55,7 @@ public class SignInActivity extends AppCompatActivity
         login_username=(TextInputLayout)findViewById(R.id.login_username);
         login_password=(TextInputLayout)findViewById(R.id.login_password);
         text_new=(TextView)findViewById(R.id.login_new);
-        text_forge=(TextView)findViewById(R.id.login_forget);
+        text_forget =(TextView)findViewById(R.id.login_forget);
 
         setSupportActionBar(toolbar);
     }
@@ -83,6 +86,49 @@ public class SignInActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 startActivityForResult(new Intent(SignInActivity.this,SignUpActivity.class),REQUEST);
+            }
+        });
+        text_forget.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                final EditText localEditText = new EditText(SignInActivity.this);
+                localEditText.setHint(R.string.hint_email);
+                new AlertDialog.Builder(SignInActivity.this)
+                        .setMessage(getString(R.string.dialog_message_forget))
+                        .setView(localEditText)
+                        .setNegativeButton(getString(R.string.cancel),null)
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                final ProgressDialog progressDialog=new ProgressDialog(SignInActivity.this);
+                                progressDialog.setMessage(getString(R.string.dialog_feedback_title));
+                                progressDialog.setCancelable(true);
+                                progressDialog.show();
+                                BmobUser.resetPasswordByEmail(localEditText.getText().toString(), new UpdateListener()
+                                {
+                                    @Override
+                                    public void done(BmobException e)
+                                    {
+                                        progressDialog.dismiss();
+                                        if(e==null)
+                                        {
+                                            Snackbar.make(findViewById(R.id.coordinatorLayout_sign_in), getString(R.string.snack_bar_reset), Snackbar.LENGTH_SHORT)
+                                                    .show();
+                                        }else
+                                        {
+                                            Log.e("error",e.toString());
+                                            Snackbar.make(findViewById(R.id.coordinatorLayout_sign_in),e.getMessage(),Snackbar.LENGTH_SHORT)
+                                                    .dismiss();
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .show();
             }
         });
     }
@@ -116,7 +162,7 @@ public class SignInActivity extends AppCompatActivity
             user.setUsername(login_username.getEditText().getText().toString());
             try
             {
-                user.setPassword(Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")));
+                user.setPassword(Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key3", "null")));
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -134,7 +180,7 @@ public class SignInActivity extends AppCompatActivity
                             getSharedPreferences("key",MODE_PRIVATE)
                                     .edit()
                                     .putString("key",Cryptogram.JM(login_username.getEditText().getText().toString(), getString(R.string.username)))
-                                    .putString("keyKey",Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
+                                    .putString("keyKey",Cryptogram.JM(login_password.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key1", "null")))
                                     .apply();
                         } catch (Exception e1)
                         {
@@ -144,8 +190,9 @@ public class SignInActivity extends AppCompatActivity
                         finish();
                     } else
                     {
-                        Log.e("error", e.toString());
-                        Toast.makeText(SignInActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.e("error",e.toString());
+                        Snackbar.make(findViewById(R.id.coordinatorLayout_sign_in),e.getMessage(),Snackbar.LENGTH_SHORT)
+                                .show();
                     }
                 }
             });

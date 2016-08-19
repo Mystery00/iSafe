@@ -12,7 +12,7 @@
     <!--About Text-->
     <dimen name="text_size_title">30sp</dimen>
     <dimen name="text_size_message">15sp</dimen>
-    <dimen name="text_margin">10dp</dimen>
+    <dimen name="text_about_margin">10dp</dimen>
     <!--Show item circle image-->
     <dimen name="item_circle">60dp</dimen>
     <dimen name="item_margin">5dp</dimen>
@@ -27,7 +27,12 @@
     <dimen name="item_icon_size">30dp</dimen>
     <dimen name="item_text_layout_size">40dp</dimen>
     <dimen name="item__setting_margin">5dp</dimen>
+    <!--Profile Setting-->
+    <dimen name="img_margin">10dp</dimen>
 
     <dimen name="small_margin">8dp</dimen>
     <dimen name="CircleImageView">80dp</dimen>
+    <dimen name="CircleShowImageView">60dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

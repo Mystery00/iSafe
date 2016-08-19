@@ -87,7 +87,7 @@ public class FeedBackActivity extends AppCompatActivity
                                         .show();
                             } else
                             {
-                                Snackbar.make(view, e.toString(), Snackbar.LENGTH_SHORT)
+                                Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_SHORT)
                                         .show();
                             }
                         }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
+    android:fitsSystemWindows="true"
+    tools:context=".Activity.ProfileActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:fitsSystemWindows="true"
+        android:layout_height="@dimen/app_bar_height"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_guest"
+                app:layout_collapseMode="parallax"
+                android:id="@+id/img"
+                app:layout_collapseParallaxMultiplier="0.7"
+                android:contentDescription="@string/title_activity_profile"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"/>
+
+            <com.mystery0.isafe.PublicMethod.CircleImageView
+                android:layout_width="@dimen/CircleShowImageView"
+                android:layout_margin="@dimen/img_margin"
+                android:id="@+id/img_circle"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/ic_guest"
+                android:layout_height="@dimen/CircleShowImageView"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_profile" />
+
+</android.support.design.widget.CoordinatorLayout>

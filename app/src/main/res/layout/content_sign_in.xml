@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:id="@+id/login_username"
         android:layout_margin="@dimen/login_margin"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionPrevious"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/MyErrorText"
         android:layout_above="@id/login_password"

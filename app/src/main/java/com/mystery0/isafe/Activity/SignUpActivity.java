@@ -201,7 +201,7 @@ public class SignUpActivity extends AppCompatActivity
                     user.setUsername(sign_username.getEditText().getText().toString());
                     try
                     {
-                        user.setPassword(Cryptogram.JM(sign_password.getEditText().getText().toString(),getSharedPreferences("key",MODE_PRIVATE).getString("key6","null")));
+                        user.setPassword(Cryptogram.JM(sign_password.getEditText().getText().toString(),getSharedPreferences("key",MODE_PRIVATE).getString("key3","null")));
                     } catch (Exception e)
                     {
                         e.printStackTrace();
@@ -227,7 +227,8 @@ public class SignUpActivity extends AppCompatActivity
                             }else
                             {
                                 Log.e("error",e.toString());
-                                Toast.makeText(SignUpActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
+                                Snackbar.make(coordinatorLayout,e.getMessage(),Snackbar.LENGTH_SHORT)
+                                        .show();
                             }
                         }
                     });

@@ -1,9 +1,9 @@
 package com.mystery0.isafe.Activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,7 +25,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mystery0.isafe.Adapter.ShowAdapter;
 import com.mystery0.isafe.BaseClass.SaveInfo;
@@ -36,9 +35,13 @@ import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetInfoList;
 import com.mystery0.isafe.R;
 
+import java.io.File;
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class MainActivity extends AppCompatActivity
@@ -55,8 +58,6 @@ public class MainActivity extends AppCompatActivity
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private int checked = 0;
-    public static final int REQUEST_EDIT =11;
-    public static final int REQUEST_SIGN_IN=22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,6 +72,14 @@ public class MainActivity extends AppCompatActivity
         monitor();
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        UserLogin();
+    }
+
     private void isFirstRun()
     {
         if (getSharedPreferences("isFirst", MODE_PRIVATE).getBoolean("First", true))
@@ -81,7 +90,8 @@ public class MainActivity extends AppCompatActivity
                     .setTitle(getString(R.string.dialog_set_key_title))
                     .setMessage(getString(R.string.dialog_set_key_message))
                     .setView(editText)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i)
@@ -95,11 +105,15 @@ public class MainActivity extends AppCompatActivity
                                 getSharedPreferences("key", MODE_PRIVATE)
                                         .edit()
                                         .putString("key1", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key1)))
-                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), getString(R.string.true_key)))
+                                        .putString("key6", Cryptogram.JM(java.util.UUID.randomUUID().toString(), getString(R.string.app_name)))
+                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
                                         .putString("key3", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key2)))
                                         .putString("key4", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key3)))
                                         .putString("key5", Cryptogram.JM(getString(R.string.username), getString(R.string.wrong_key4)))
-                                        .putString("key6", Cryptogram.JM(java.util.UUID.randomUUID().toString(),getString(R.string.app_name)))
+                                        .apply();
+                                getSharedPreferences("kk", MODE_PRIVATE)
+                                        .edit()
+                                        .putString("head", getFilesDir().getPath() + "/head/user.png")
                                         .apply();
                             } catch (Exception e)
                             {
@@ -121,64 +135,17 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
-        text_menu_username=(TextView)headerLayout.findViewById(R.id.text_menu_username);
-        text_statues_verified=(TextView)headerLayout.findViewById(R.id.verified_statues) ;
+        text_menu_username = (TextView) headerLayout.findViewById(R.id.text_menu_username);
+        text_statues_verified = (TextView) headerLayout.findViewById(R.id.verified_statues);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         img_head = (CircleImageView) headerLayout.findViewById(R.id.image_menu_head);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_main);
         listView = (ListView) findViewById(R.id.listView);
-        swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
-        final User localUser=BmobUser.getCurrentUser(User.class);
-        if(localUser!=null)
-        {
-            if(localUser.getEmailVerified())
-            {
-                text_statues_verified.setText(getString(R.string.verified_done));
-            }else
-            {
-                text_statues_verified.setText(getString(R.string.verified_null));
-            }
-            text_menu_username.setText(localUser.getUsername());
-
-            final ProgressDialog progressDialog=new ProgressDialog(MainActivity.this);
-            progressDialog.setMessage(getString(R.string.dialog_feedback_title));
-            progressDialog.setCancelable(true);
-            progressDialog.show();
-            User user=new User();
-            try
-            {
-                user.setUsername(Cryptogram.JX(getSharedPreferences("key",MODE_PRIVATE).getString("key","null"), getString(R.string.username)));
-                user.setPassword(Cryptogram.JX(getSharedPreferences("key",MODE_PRIVATE).getString("keyKey","null"),getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")));
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            user.login(new SaveListener<User>()
-            {
-                @Override
-                public void done(User user, BmobException e)
-                {
-                    progressDialog.dismiss();
-                    if(e==null)
-                    {
-                        if (user.getEmailVerified())
-                        {
-                            text_statues_verified.setText(getString(R.string.verified_done));
-                        } else
-                        {
-                            text_statues_verified.setText(getString(R.string.verified_null));
-                        }
-                    }else
-                    {
-                        Log.e("error", e.toString());
-                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
+        UserLogin();
 
         setSupportActionBar(toolbar);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -186,15 +153,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh()
             {
-                new Handler().postDelayed(new Runnable()
+                new Handler().post(new Runnable()
                 {
                     @Override
                     public void run()
                     {
-                        showList(MainActivity.this,checked);
+                        UserLogin();
+                        showList(MainActivity.this, checked);
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                },2000);
+                });
             }
         });
         swipeRefreshLayout.setColorSchemeResources(
@@ -266,9 +234,9 @@ public class MainActivity extends AppCompatActivity
                         .setTitle(getString(R.string.dialog_change_key_title))
                         .setIcon(R.drawable.ic_warning)
                         .setView(localEditText)
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getString(R.string.cancel), null)
                         .setMessage(getString(R.string.dialog_change_key_message))
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i)
@@ -295,7 +263,10 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+            case R.id.action_exit:
+                ExitApplication.getInstance().exit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -334,7 +305,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_setting://Setting
-                startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 break;
             case R.id.nav_exit://Exit App
                 ExitApplication.getInstance().exit();
@@ -355,54 +326,17 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("title", "");
                 intent.putExtra("username", "");
                 intent.putExtra("password", "");
-                intent.putExtra("item_type","");
-                startActivityForResult(intent, REQUEST_EDIT);
+                intent.putExtra("item_type", "");
+                startActivity(intent);
                 break;
             case R.id.image_menu_head:
-                User user= BmobUser.getCurrentUser(User.class);
-                if(user!=null)
+                User user = BmobUser.getCurrentUser(User.class);
+                if (user != null)
                 {
-                    //startActivity(new Intent(MainActivity.this,));
-                }else
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                } else
                 {
-                    startActivityForResult(new Intent(MainActivity.this, SignInActivity.class),REQUEST_SIGN_IN);
-                }
-                break;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        switch (requestCode)
-        {
-            case REQUEST_EDIT:
-                if (resultCode==RESULT_OK)
-                {
-                    swipeRefreshLayout.setRefreshing(true);
-                    new Handler().postDelayed(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            showList(MainActivity.this,checked);
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    },2000);
-                }
-                break;
-            case REQUEST_SIGN_IN:
-                User localUser=BmobUser.getCurrentUser(User.class);
-                if(localUser!=null)
-                {
-                    if (localUser.getEmailVerified())
-                    {
-                        text_statues_verified.setText(getString(R.string.verified_done));
-                    } else
-                    {
-                        text_statues_verified.setText(getString(R.string.verified_null));
-                    }
-                    text_menu_username.setText(localUser.getUsername());
+                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
                 }
                 break;
         }
@@ -412,5 +346,79 @@ public class MainActivity extends AppCompatActivity
     {
         ShowAdapter showAdapter = new ShowAdapter(context, GetInfoList.getList(context, type));
         listView.setAdapter(showAdapter);
+    }
+
+    private void UserLogin()
+    {
+        swipeRefreshLayout.setRefreshing(true);
+        final User localUser = BmobUser.getCurrentUser(User.class);
+        if (localUser != null)
+        {
+            if (localUser.getEmailVerified())
+            {
+                text_statues_verified.setText(getString(R.string.verified_done));
+            } else
+            {
+                text_statues_verified.setText(getString(R.string.verified_null));
+            }
+            text_menu_username.setText(localUser.getUsername());
+            getSharedPreferences("key", MODE_PRIVATE)
+                    .edit()
+                    .putString("key6", localUser.getOne_key())
+                    .apply();
+
+            User user = new User();
+            try
+            {
+                user.setUsername(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key", "null"), getString(R.string.username)));
+                user.setPassword(Cryptogram.JM(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("keyKey", "null"), getSharedPreferences("key", MODE_PRIVATE).getString("key1", "null")), getSharedPreferences("key", MODE_PRIVATE).getString("key3", "null")));
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            user.login(new SaveListener<User>()
+            {
+                @Override
+                public void done(User user, BmobException e)
+                {
+                    swipeRefreshLayout.setRefreshing(false);
+                    if (e == null)
+                    {
+                        BmobFile bmobFile = new BmobFile("user.png", "", BmobUser.getCurrentUser(User.class).getHeadFileUrl());
+                        bmobFile.download(new File(getSharedPreferences("kk", Context.MODE_PRIVATE).getString("head", "null")), new DownloadFileListener()
+                        {
+                            @Override
+                            public void done(String s, BmobException e)
+                            {
+                                if (e == null)
+                                {
+                                    img_head.setImageBitmap(BitmapFactory.decodeFile(getSharedPreferences("kk", MODE_PRIVATE).getString("head", null)));
+                                } else
+                                {
+                                    Log.e("error", e.getMessage());
+                                }
+                            }
+
+                            @Override
+                            public void onProgress(Integer integer, long l)
+                            {
+                            }
+                        });
+                        if (user.getEmailVerified())
+                        {
+                            text_statues_verified.setText(getString(R.string.verified_done));
+                        } else
+                        {
+                            text_statues_verified.setText(getString(R.string.verified_null));
+                        }
+                    } else
+                    {
+                        Log.e("error", e.toString());
+                        Snackbar.make(coordinatorLayout, e.getMessage(), Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
+                }
+            });
+        }
     }
 }
