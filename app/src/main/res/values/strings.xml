@@ -5,6 +5,11 @@
 
     <string name="data_base_file_name">app.db</string>
     <string name="data_base_table_name">kk</string>
+    <string name="data_base_table_path">/data/data/com.mystery0.isafe/databases/app.db</string>
+    <string name="data_path_a">/data/data/com.mystery0.isafe/databases</string>
+    <string name="data_path_b">/data/data/com.mystery0.isafe/cache</string>
+    <string name="data_path_c">/data/data/com.mystery0.isafe/files</string>
+    <string name="data_path_d">/data/data/com.mystery0.isafe/shared_prefs</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -57,6 +62,12 @@
     <string name="snack_bar_done_set">Set Key Success!</string>
     <string name="snack_bar_done_feedback">Success!</string>
     <string name="snack_bar_copied">Text Copied To Clipboard!</string>
+    <string name="snack_bar_choose">Please Install A File Manager!</string>
+    <string name="snack_bar_done_backup">Backup Done!</string>
+    <string name="snack_bar_failed_backup">Backup Failed!</string>
+    <string name="snack_bar_done_restore">Restore Done!</string>
+    <string name="snack_bar_failed_restore">Restore Failed!</string>
+    <string name="snack_bar_complete_delete">Delete Failed!</string>
 
     <string name="toast_complete_share">Shared Success!</string>
     <string name="toast_cancel_share">Share Cancel!</string>
@@ -76,6 +87,8 @@
     <string name="dialog_about_version">Version 1.0.0</string>
     <string name="dialog_about_author">By Mystery0</string>
     <string name="dialog_about_team">MX Team</string>
+    <string name="dialog_delete_message">This will erase all application\'s data and settings from your device.This will not erase any data from the cloud.</string>
+    <string name="dialog_backup_message">Backup/Restore your database to/from the external storage.You can access files on the external storage using any 3rd party file manager application.Please Keep in mind the key!</string>
 
     <string name="information_share_title">The New Material Design APP</string>
     <string name="information_share_summary">A laconic and useful APP</string>
@@ -86,9 +99,12 @@
 
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
+    <string name="title_choose_file">Please Choose A Folder</string>
 
     <string name="text_setting_personal">My Profile</string>
     <string name="text_setting_language">Language</string>
+    <string name="text_setting_backup">Backup/Restore</string>
+    <string name="text_setting_delete">Erase Data</string>
     <string name="text_setting_share">Share With Friends</string>
     <string name="text_setting_send">Send Feedback</string>
     <string name="text_setting_about">About Us</string>

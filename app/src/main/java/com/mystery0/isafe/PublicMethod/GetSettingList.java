@@ -25,6 +25,16 @@ public class GetSettingList
         arrayList.add(settingItem);
 
         settingItem=new SettingItem();
+        settingItem.setImg(R.drawable.ic_backup);
+        settingItem.setText(context.getString(R.string.text_setting_backup));
+        arrayList.add(settingItem);
+
+        settingItem=new SettingItem();
+        settingItem.setImg(R.drawable.ic_delete);
+        settingItem.setText(context.getString(R.string.text_setting_delete));
+        arrayList.add(settingItem);
+
+        settingItem=new SettingItem();
         settingItem.setImg(R.drawable.ic_share);
         settingItem.setText(context.getString(R.string.text_setting_share));
         arrayList.add(settingItem);
