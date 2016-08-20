@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.CopyFile;
+import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetPath;
 import com.mystery0.isafe.R;
@@ -114,17 +117,52 @@ public class ProfileActivity extends AppCompatActivity
             @Override
             public void onClick(final View view)
             {
-                EditText Old=new EditText(ProfileActivity.this);
-                EditText New=new EditText(ProfileActivity.this);
+                @SuppressLint("InflateParams")
+                final View change_password= LayoutInflater.from(ProfileActivity.this).inflate(R.layout.dialog_change_password,null);
                 new AlertDialog.Builder(ProfileActivity.this)
-                        .setView(Old)
-                        .setNegativeButton(getString(R.string.cancel),null)
-                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
+                        .setTitle(R.string.title_change_password)
+                        .setView(change_password)
+                        .setNegativeButton(getString(R.string.action_cancel),null)
+                        .setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener()
                         {
+                            @SuppressWarnings("ConstantConditions")
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i)
                             {
-
+                                final ProgressDialog progressDialog=new ProgressDialog(ProfileActivity.this);
+                                progressDialog.setMessage(getString(R.string.dialog_feedback_title));
+                                progressDialog.setCancelable(true);
+                                progressDialog.show();
+                                TextInputLayout Old=(TextInputLayout)change_password.findViewById(R.id.old_password);
+                                TextInputLayout New=(TextInputLayout)change_password.findViewById(R.id.new_password);
+                                try
+                                {
+                                    BmobUser.updateCurrentUserPassword(
+                                            Cryptogram.JM(Old.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key3", "null")),
+                                            Cryptogram.JM(New.getEditText().getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key3", "null")),
+                                            new UpdateListener()
+                                            {
+                                                @Override
+                                                public void done(BmobException e)
+                                                {
+                                                    progressDialog.dismiss();
+                                                    if(e==null)
+                                                    {
+                                                        Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_complete_update),Snackbar.LENGTH_SHORT)
+                                                                .show();
+                                                    }else
+                                                    {
+                                                        Log.e("error",e.toString());
+                                                        Snackbar.make(coordinatorLayout,e.getMessage(),Snackbar.LENGTH_SHORT)
+                                                                .show();
+                                                    }
+                                                }
+                                            }
+                                    );
+                                } catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
                             }
                         })
                         .show();
@@ -135,7 +173,45 @@ public class ProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
+                @SuppressLint("InflateParams") final
+                EditText new_email=new EditText(ProfileActivity.this);
+                new AlertDialog.Builder(ProfileActivity.this)
+                        .setTitle(R.string.title_change_password)
+                        .setView(new_email)
+                        .setNegativeButton(getString(R.string.action_cancel),null)
+                        .setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener()
+                        {
+                            @SuppressWarnings("ConstantConditions")
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                final ProgressDialog progressDialog=new ProgressDialog(ProfileActivity.this);
+                                progressDialog.setMessage(getString(R.string.dialog_feedback_title));
+                                progressDialog.setCancelable(true);
+                                progressDialog.show();
+                                User user=new User();
+                                user.setEmail(new_email.getText().toString());
+                                user.update(BmobUser.getCurrentUser(User.class).getObjectId(),new UpdateListener()
+                                {
+                                    @Override
+                                    public void done(BmobException e)
+                                    {
+                                        progressDialog.dismiss();
+                                        if(e==null)
+                                        {
+                                            Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_complete_update),Snackbar.LENGTH_SHORT)
+                                                    .show();
+                                        }else
+                                        {
+                                            Log.e("error",e.toString());
+                                            Snackbar.make(coordinatorLayout,e.getMessage(),Snackbar.LENGTH_SHORT)
+                                                    .show();
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .show();
             }
         });
         layout_change_head.setOnClickListener(new View.OnClickListener()
@@ -143,7 +219,16 @@ public class ProfileActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
+                ChooseImg();
+            }
+        });
+        layout_logout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                BmobUser.logOut();
+                finish();
             }
         });
     }

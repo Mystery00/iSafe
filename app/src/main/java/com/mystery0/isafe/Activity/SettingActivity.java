@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.mystery0.isafe.Adapter.SettingItemAdapter;
 import com.mystery0.isafe.BaseClass.User;
+import com.mystery0.isafe.ContentProvider.SQLiteHelper;
 import com.mystery0.isafe.PublicMethod.CopyFile;
 import com.mystery0.isafe.PublicMethod.DeleteFile;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
@@ -106,7 +107,7 @@ public class SettingActivity extends AppCompatActivity
                                 .setTitle(R.string.text_setting_backup)
                                 .setMessage(R.string.dialog_backup_message)
                                 .setIcon(R.drawable.ic_backup)
-                                .setNegativeButton(getString(R.string.backup), new DialogInterface.OnClickListener()
+                                .setNegativeButton(getString(R.string.action_backup), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
@@ -114,7 +115,7 @@ public class SettingActivity extends AppCompatActivity
                                         showFileChooser(REQUEST_BACKUP);
                                     }
                                 })
-                                .setPositiveButton(getString(R.string.restore), new DialogInterface.OnClickListener()
+                                .setPositiveButton(getString(R.string.action_restore), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
@@ -129,8 +130,8 @@ public class SettingActivity extends AppCompatActivity
                                 .setTitle(R.string.text_setting_delete)
                                 .setIcon(R.drawable.ic_delete)
                                 .setMessage(R.string.dialog_delete_message)
-                                .setNegativeButton(getString(R.string.cancel),null)
-                                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener()
+                                .setNegativeButton(getString(R.string.action_cancel),null)
+                                .setPositiveButton(getString(R.string.action_delete), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
@@ -141,7 +142,7 @@ public class SettingActivity extends AppCompatActivity
                                     }
                                 })
                                 .show();
-
+                        new SQLiteHelper(SettingActivity.this, getString(R.string.data_base_file_name));
                         break;
                     case 4://Share With Friends
                         new AlertDialog.Builder(SettingActivity.this)
@@ -221,7 +222,7 @@ public class SettingActivity extends AppCompatActivity
                     case 6://About Us
                         new AlertDialog.Builder(SettingActivity.this)
                                 .setView(R.layout.dialog_about_us)
-                                .setNegativeButton(getString(R.string.ok), null)
+                                .setNegativeButton(getString(R.string.action_ok), null)
                                 .show();
                         break;
                 }

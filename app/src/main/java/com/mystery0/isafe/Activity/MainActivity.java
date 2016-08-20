@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
                     .setMessage(getString(R.string.dialog_set_key_message))
                     .setView(editText)
                     .setCancelable(false)
-                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
+                    .setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener()
                     {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i)
@@ -234,9 +234,9 @@ public class MainActivity extends AppCompatActivity
                         .setTitle(getString(R.string.dialog_change_key_title))
                         .setIcon(R.drawable.ic_warning)
                         .setView(localEditText)
-                        .setNegativeButton(getString(R.string.cancel), null)
+                        .setNegativeButton(getString(R.string.action_cancel), null)
                         .setMessage(getString(R.string.dialog_change_key_message))
-                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
+                        .setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i)
@@ -419,6 +419,10 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
+        }else
+        {
+            text_statues_verified.setText(getString(R.string.verified_null));
+            img_head.setImageResource(R.drawable.ic_guest);
         }
     }
 }

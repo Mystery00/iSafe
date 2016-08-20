@@ -45,6 +45,8 @@
     <string name="hint_contact">Please Enter Your Contact Information</string>
     <string name="hint_change_password_old">Enter Old Password</string>
     <string name="hint_change_password_new">Enter New Password</string>
+    <string name="hint_change_email_old">Enter Old E-mail</string>
+    <string name="hint_change_email_new">Enter New E-mail</string>
 
     <string name="error_title">Title Cannot be blank</string>
     <string name="error_username">Username Cannot be blank</string>
@@ -99,6 +101,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
     <string name="title_choose_file">Please Choose A Folder</string>
+    <string name="title_change_password">Change Password</string>
     <string name="title_activity_profile">Profile</string>
 
     <string name="text_new">New Friend</string>
@@ -120,11 +123,11 @@
     <string name="text_setting_send">Send Feedback</string>
     <string name="text_setting_about">About Us</string>
 
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="backup">Backup</string>
-    <string name="restore">Restore</string>
-    <string name="delete">Delete</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_backup">Backup</string>
+    <string name="action_restore">Restore</string>
+    <string name="action_delete">Delete</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

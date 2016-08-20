@@ -98,8 +98,8 @@ public class SignInActivity extends AppCompatActivity
                 new AlertDialog.Builder(SignInActivity.this)
                         .setMessage(getString(R.string.dialog_message_forget))
                         .setView(localEditText)
-                        .setNegativeButton(getString(R.string.cancel),null)
-                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener()
+                        .setNegativeButton(getString(R.string.action_cancel),null)
+                        .setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i)
