@@ -65,6 +65,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i("info",java.util.UUID.randomUUID().toString());
+        try
+        {
+            Log.i("info",Cryptogram.JM(java.util.UUID.randomUUID().toString(),"iSafe"));
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         isFirstRun();
 
         initialization();
@@ -77,6 +86,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onResume();
 
+        showList(getApplicationContext(),checked);
         UserLogin();
     }
 
@@ -194,6 +204,7 @@ public class MainActivity extends AppCompatActivity
                 SaveInfo saveInfo = GetInfoList.getList(MainActivity.this, checked).get(i);
                 Intent intent = new Intent(MainActivity.this, ShowActivity.class);
                 intent.putExtra("type", "Show");
+                intent.putExtra("id",saveInfo.getId());
                 intent.putExtra("title", saveInfo.getTitle());
                 intent.putExtra("username", saveInfo.getUsername());
                 intent.putExtra("password", saveInfo.getPassword());
@@ -249,7 +260,7 @@ public class MainActivity extends AppCompatActivity
                                     try
                                     {
                                         getSharedPreferences("key", MODE_PRIVATE)
-                                                .edit().putString("key2", Cryptogram.JM(localEditText.getText().toString(), getString(R.string.true_key)))
+                                                .edit().putString("key2", Cryptogram.JM(localEditText.getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
                                                 .apply();
                                     } catch (Exception e)
                                     {
@@ -351,6 +362,7 @@ public class MainActivity extends AppCompatActivity
     private void UserLogin()
     {
         swipeRefreshLayout.setRefreshing(true);
+        showList(getApplicationContext(),checked);
         final User localUser = BmobUser.getCurrentUser(User.class);
         if (localUser != null)
         {

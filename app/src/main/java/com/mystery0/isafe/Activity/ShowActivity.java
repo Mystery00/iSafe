@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.mystery0.isafe.ContentProvider.SQLiteHelper;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
+import com.mystery0.isafe.PublicMethod.GetKey;
 import com.mystery0.isafe.R;
 
 import java.util.Objects;
@@ -332,8 +333,8 @@ public class ShowActivity extends AppCompatActivity
                             values.put("title", layout_title.getEditText().getText().toString());
                             try
                             {
-                                values.put("username", Cryptogram.JM(layout_username.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
-                                values.put("password", Cryptogram.JM(layout_password.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", Context.MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
+                                values.put("username", Cryptogram.JM(layout_username.getEditText().getText().toString(), GetKey.getKey(getApplicationContext())));
+                                values.put("password", Cryptogram.JM(layout_password.getEditText().getText().toString(), GetKey.getKey(getApplicationContext())));
                             } catch (Exception e)
                             {
                                 e.printStackTrace();
@@ -359,18 +360,15 @@ public class ShowActivity extends AppCompatActivity
                             try
                             {
                                 values.put("title",layout_title.getEditText().getText().toString());
-                                values.put("username",Cryptogram.JM(layout_username.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
-                                values.put("password",Cryptogram.JM(layout_password.getEditText().getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))));
+                                values.put("username",Cryptogram.JM(layout_username.getEditText().getText().toString(), GetKey.getKey(getApplicationContext())));
+                                values.put("password",Cryptogram.JM(layout_password.getEditText().getText().toString(), GetKey.getKey(getApplicationContext())));
                                 values.put("item_type",item_type);
                                 db.update(
                                         getString(R.string.data_base_table_name),
                                         values,
-                                        "title=? and username=? and password=? and item_type=?",
+                                        "id=?",
                                         new String[]{
-                                                getIntent().getStringExtra("title"),
-                                                Cryptogram.JM(getIntent().getStringExtra("username"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))),
-                                                Cryptogram.JM(getIntent().getStringExtra("password"), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key2", getSharedPreferences("key",MODE_PRIVATE).getString("key6",getString(R.string.app_name))), getString(R.string.true_key))),
-                                                getIntent().getStringExtra("item_type")
+                                                String.valueOf(getIntent().getIntExtra("id",0))
                                         });
                             } catch (Exception e)
                             {

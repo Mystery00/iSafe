@@ -6,10 +6,21 @@ package com.mystery0.isafe.BaseClass;
  */
 public class SaveInfo
 {
+    private int id;
     private String Title;
     private String Username;
     private String Password;
     private String Type;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public String getTitle()
     {

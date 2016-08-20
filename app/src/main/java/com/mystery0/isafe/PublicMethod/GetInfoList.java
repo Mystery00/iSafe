@@ -35,15 +35,14 @@ public class GetInfoList
         while (cursor.moveToNext())
         {
             SaveInfo saveInfo=new SaveInfo();
+            saveInfo.setId(cursor.getInt(cursor.getColumnIndex("id")));
             saveInfo.setTitle(cursor.getString(cursor.getColumnIndex("title")));
             try
             {
                 saveInfo.setUsername(
-                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("username")),
-                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2",context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key6",context.getString(R.string.app_name))), context.getString(R.string.true_key))));
+                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("username")), GetKey.getKey(context)));
                 saveInfo.setPassword(
-                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("password")),
-                        Cryptogram.JX(context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key2",context.getSharedPreferences("key",Context.MODE_PRIVATE).getString("key6",context.getString(R.string.app_name))), context.getString(R.string.true_key))));
+                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("password")), GetKey.getKey(context)));
             } catch (Exception e)
             {
                 e.printStackTrace();
