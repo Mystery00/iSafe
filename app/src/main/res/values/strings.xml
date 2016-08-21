@@ -100,7 +100,7 @@
 
     <string name="information_share_title">A laconic and useful APP to manager your password</string>
     <string name="information_share_summary">The New Material Design style APP</string>
-    <string name="information_share_url">https://www.mystery0.vip/iSafe_beta.apk</string>
+    <string name="information_share_url">http://www.mystery0.vip/iSafe_beta.apk</string>
 
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>

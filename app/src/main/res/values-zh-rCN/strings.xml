@@ -100,7 +100,7 @@
 
     <string name="information_share_title">一个简洁并且有用的密码管理软件</string>
     <string name="information_share_summary">全新Material Design 风格</string>
-    <string name="information_share_url">https://www.mystery0.vip/iSafe_beta.apk</string>
+    <string name="information_share_url">http://www.mystery0.vip/iSafe_beta.apk</string>
 
     <string name="title_activity_login">登陆</string>
     <string name="title_activity_sign_up">注册</string>
