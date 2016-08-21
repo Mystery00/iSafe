@@ -308,8 +308,6 @@ public class MainActivity extends AppCompatActivity
                 checked = 5;
                 showList(MainActivity.this, GetInfoList.MEMBER);
                 break;
-            case R.id.item_cloud:
-                break;
 
             case R.id.nav_setting://Setting
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));

@@ -208,6 +208,7 @@ public class SignUpActivity extends AppCompatActivity
                     }
                     user.setEmail(sign_email.getEditText().getText().toString());
                     user.setOne_key(getSharedPreferences("key",MODE_PRIVATE).getString("key6","null"));
+                    user.setDatabaseUrl("null");
                     user.setHeadFileUrl("null");
                     user.setEmailVerified(false);
                     user.signUp(new SaveListener<User>()

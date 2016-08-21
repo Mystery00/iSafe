@@ -27,10 +27,6 @@
             android:id="@+id/item_member"
             android:icon="@drawable/ic_member"
             android:title="@string/item_member"/>
-        <item
-            android:id="@+id/item_cloud"
-            android:icon="@drawable/ic_cloud"
-            android:title="@string/item_cloud"/>
     </group>
 
     <item android:title="@string/menu_communicate">

@@ -82,7 +82,7 @@
             android:focusable="true"
             android:background="@drawable/selector_linear"
             android:layout_margin="@dimen/item_setting_margin"
-            android:layout_height="@dimen/text_height">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="@dimen/img_size"
@@ -96,9 +96,43 @@
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:id="@+id/text_key"
+                android:layout_centerVertical="true"
                 android:text="@string/text_key"
                 android:layout_toRightOf="@id/img_key"
                 android:layout_toEndOf="@id/img_key"
+                android:layout_margin="@dimen/item_setting_margin"
+                android:textSize="@dimen/item_text_size"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:id="@+id/layout_profile_cloud"
+            android:focusable="true"
+            android:background="@drawable/selector_linear"
+            android:layout_margin="@dimen/item_setting_margin"
+            android:layout_height="@dimen/text_height">
+
+            <ImageView
+                android:layout_width="@dimen/img_size"
+                android:layout_margin="@dimen/img_item_margin"
+                android:id="@+id/img_cloud"
+                android:src="@drawable/ic_cloud"
+                android:contentDescription="@string/app_name"
+                android:layout_height="@dimen/img_size"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/text_cloud"
+                android:layout_toRightOf="@id/img_cloud"
+                android:layout_toEndOf="@id/img_cloud"
                 android:layout_margin="@dimen/item_setting_margin"
                 android:textSize="@dimen/item_text_size"
                 android:layout_height="match_parent"/>

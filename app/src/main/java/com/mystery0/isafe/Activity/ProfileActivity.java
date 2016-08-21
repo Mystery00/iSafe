@@ -38,6 +38,7 @@ import java.util.Objects;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
@@ -47,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_small;
     private ImageView img;
+    private RelativeLayout layout_cloud;
     private RelativeLayout layout_change_password;
     private RelativeLayout layout_change_email;
     private RelativeLayout layout_change_head;
@@ -75,6 +77,7 @@ public class ProfileActivity extends AppCompatActivity
         TextView text_username = (TextView) findViewById(R.id.text_username);
         TextView text_email = (TextView) findViewById(R.id.text_email);
         TextView text_key = (TextView) findViewById(R.id.text_key);
+        layout_cloud=(RelativeLayout)findViewById(R.id.layout_profile_cloud);
         layout_change_password=(RelativeLayout)findViewById(R.id.layout_profile_change_password);
         layout_change_email=(RelativeLayout)findViewById(R.id.layout_profile_change_email);
         layout_change_head=(RelativeLayout)findViewById(R.id.layout_profile_change_head);
@@ -110,6 +113,126 @@ public class ProfileActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 ChooseImg();
+            }
+        });
+        layout_cloud.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                new AlertDialog.Builder(ProfileActivity.this)
+                        .setTitle(R.string.title_cloud)
+                        .setMessage(R.string.dialog_message_cloud)
+                        .setNegativeButton(getString(R.string.action_backup), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                final ProgressDialog progressDialog=new ProgressDialog(ProfileActivity.this);
+                                progressDialog.setTitle(getString(R.string.dialog_title_upload));
+                                progressDialog.setMessage("0% "+getString(R.string.dialog_message_upload));
+                                progressDialog.setCancelable(false);
+                                progressDialog.show();
+                                final BmobFile file=new BmobFile(new File(getString(R.string.data_base_file_name)));
+                                file.uploadblock(new UploadFileListener()
+                                {
+                                    @SuppressLint("NewApi")
+                                    @Override
+                                    public void done(BmobException e)
+                                    {
+                                        progressDialog.dismiss();
+                                        if(e==null)
+                                        {
+                                            if(!Objects.equals(BmobUser.getCurrentUser(User.class).getDatabaseUrl(), "null"))
+                                            {
+                                                BmobFile oldFile = new BmobFile();
+                                                oldFile.setUrl(BmobUser.getCurrentUser(User.class).getDatabaseUrl());
+                                                oldFile.delete();
+                                            }
+                                            User user=new User();
+                                            user.setDatabaseUrl(file.getFileUrl());
+                                            user.update(BmobUser.getCurrentUser(User.class).getObjectId(), new UpdateListener()
+                                            {
+                                                @Override
+                                                public void done(BmobException e)
+                                                {
+                                                    if(e==null)
+                                                    {
+                                                        Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_complete_upload),Snackbar.LENGTH_SHORT)
+                                                                .show();
+                                                    }else
+                                                    {
+                                                        Log.e("error",e.toString());
+                                                        Snackbar.make(coordinatorLayout,e.getMessage(),Snackbar.LENGTH_SHORT)
+                                                                .show();
+                                                    }
+                                                }
+                                            });
+                                        }else
+                                        {
+                                            Log.e("error",e.toString());
+                                            Snackbar.make(coordinatorLayout,e.getMessage(),Snackbar.LENGTH_SHORT)
+                                                    .show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onProgress(Integer value)
+                                    {
+                                        progressDialog.setMessage(value + "% "+getString(R.string.dialog_message_upload));
+                                    }
+                                });
+                            }
+                        })
+                        .setPositiveButton(getString(R.string.action_restore), new DialogInterface.OnClickListener()
+                        {
+                            @SuppressLint("NewApi")
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i)
+                            {
+                                if (!Objects.equals(BmobUser.getCurrentUser(User.class).getDatabaseUrl(), "null"))
+                                {
+                                    final ProgressDialog progressDialog=new ProgressDialog(ProfileActivity.this);
+                                    progressDialog.setTitle(getString(R.string.dialog_title_download));
+                                    progressDialog.setMessage("0% "+getString(R.string.dialog_message_download));
+                                    progressDialog.setCancelable(false);
+                                    progressDialog.show();
+                                    BmobFile file = new BmobFile(getString(R.string.data_base_file_name), "", BmobUser.getCurrentUser(User.class).getDatabaseUrl());
+                                    file.download(new File(getApplicationContext().getCacheDir()+"/database/"), new DownloadFileListener()
+                                    {
+                                        @Override
+                                        public void done(String s, BmobException e)
+                                        {
+                                            progressDialog.dismiss();
+                                            if(e==null)
+                                            {
+                                                try
+                                                {
+                                                    CopyFile.fileCopy(getApplicationContext().getCacheDir()+"/database/app.db",getString(R.string.data_base_table_path));
+                                                } catch (IOException e1)
+                                                {
+                                                    e1.printStackTrace();
+                                                }
+                                                Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_complete_download),Snackbar.LENGTH_SHORT)
+                                                        .show();
+                                            }else
+                                            {
+                                                Log.e("error",e.toString());
+                                                Snackbar.make(coordinatorLayout,e.getMessage(),Snackbar.LENGTH_SHORT)
+                                                        .show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onProgress(Integer integer, long l)
+                                        {
+                                            progressDialog.setMessage(integer+"% "+getString(R.string.dialog_message_download)+", "+l);
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                        .show();
             }
         });
         layout_change_password.setOnClickListener(new View.OnClickListener()
@@ -255,7 +378,7 @@ public class ProfileActivity extends AppCompatActivity
             {
                 final ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this);
                 progressDialog.setTitle(getString(R.string.dialog_title_upload));
-                progressDialog.setMessage("0% Completed...");
+                progressDialog.setMessage("0%"+getString(R.string.dialog_message_upload));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
                 String path = GetPath.getPath(ProfileActivity.this, data.getData());
@@ -316,7 +439,7 @@ public class ProfileActivity extends AppCompatActivity
                         @Override
                         public void onProgress(Integer value)
                         {
-                            progressDialog.setMessage(value + "% Completed...");
+                            progressDialog.setMessage(value + "% "+getString(R.string.dialog_message_upload));
                         }
                     });
                 }

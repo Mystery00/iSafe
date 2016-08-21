@@ -6,6 +6,7 @@ public class User extends BmobUser
 {
     private String one_key;
     private String headFileUrl;
+    private String databaseUrl;
 
     public String getOne_key()
     {
@@ -25,5 +26,15 @@ public class User extends BmobUser
     public void setHeadFileUrl(String headFileUrl)
     {
         this.headFileUrl = headFileUrl;
+    }
+
+    public String getDatabaseUrl()
+    {
+        return databaseUrl;
+    }
+
+    public void setDatabaseUrl(String databaseUrl)
+    {
+        this.databaseUrl = databaseUrl;
     }
 }

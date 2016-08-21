@@ -34,7 +34,6 @@
     <string name="item_email">Email</string>
     <string name="item_game">Game</string>
     <string name="item_member">Member</string>
-    <string name="item_cloud">Cloud</string>
 
     <string name="hint_title">Please Enter Title</string>
     <string name="hint_username">Please Enter Username</string>
@@ -70,6 +69,8 @@
     <string name="snack_bar_complete_delete">Delete Done!</string>
     <string name="snack_bar_complete_update">Information Update Done!</string>
     <string name="snack_bar_reset">The E-mail to reset password had been send.Please complete the next process in E-mail page.</string>
+    <string name="snack_bar_complete_upload">Upload Done!</string>
+    <string name="snack_bar_complete_download">Download Done!</string>
 
     <string name="toast_complete_share">Shared Success!</string>
     <string name="toast_cancel_share">Share Cancel!</string>
@@ -92,7 +93,11 @@
     <string name="dialog_delete_message">This will erase all application\'s data and settings from your device.This will not erase any data from the cloud.</string>
     <string name="dialog_backup_message">Backup/Restore your database to/from the external storage.You can access files on the external storage using any 3rd party file manager application.Please Keep in mind the key!</string>
     <string name="dialog_title_upload">Uploading…</string>
+    <string name="dialog_message_upload">Completed…</string>
+    <string name="dialog_title_download">Downloading…</string>
+    <string name="dialog_message_download">Completed…</string>
     <string name="dialog_message_forget">Please enter your E-mail to reset your password!</string>
+    <string name="dialog_message_cloud">Backup data to cloud.You can restore it anytime.</string>
 
     <string name="information_share_title">The New Material Design APP</string>
     <string name="information_share_summary">A laconic and useful APP</string>
@@ -101,6 +106,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_sign_up">Sign up</string>
     <string name="title_choose_file">Please Choose A Folder</string>
+    <string name="title_cloud">Please Choose A Item</string>
     <string name="title_change_password">Change Password</string>
     <string name="title_activity_profile">Profile</string>
 
@@ -110,6 +116,7 @@
     <string name="text_username">Username</string>
     <string name="text_email">E-mail</string>
     <string name="text_key">Key</string>
+    <string name="text_cloud">Cloud</string>
     <string name="text_change_password">Change password</string>
     <string name="text_change_email">Change E-mail</string>
     <string name="text_change_avatar">Change Avatar</string>
