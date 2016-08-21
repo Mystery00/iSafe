@@ -133,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity
                                 progressDialog.setMessage("0% "+getString(R.string.dialog_message_upload));
                                 progressDialog.setCancelable(false);
                                 progressDialog.show();
-                                final BmobFile file=new BmobFile(new File(getString(R.string.data_base_file_name)));
+                                final BmobFile file=new BmobFile(new File(getString(R.string.data_base_table_path)));
                                 file.uploadblock(new UploadFileListener()
                                 {
                                     @SuppressLint("NewApi")
@@ -198,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity
                                     progressDialog.setCancelable(false);
                                     progressDialog.show();
                                     BmobFile file = new BmobFile(getString(R.string.data_base_file_name), "", BmobUser.getCurrentUser(User.class).getDatabaseUrl());
-                                    file.download(new File(getApplicationContext().getCacheDir()+"/database/"), new DownloadFileListener()
+                                    file.download(new File(getApplicationContext().getCacheDir()+"/app.db"), new DownloadFileListener()
                                     {
                                         @Override
                                         public void done(String s, BmobException e)
@@ -208,7 +208,7 @@ public class ProfileActivity extends AppCompatActivity
                                             {
                                                 try
                                                 {
-                                                    CopyFile.fileCopy(getApplicationContext().getCacheDir()+"/database/app.db",getString(R.string.data_base_table_path));
+                                                    CopyFile.fileCopy(getApplicationContext().getCacheDir()+"/app.db",getString(R.string.data_base_table_path));
                                                 } catch (IOException e1)
                                                 {
                                                     e1.printStackTrace();

@@ -14,11 +14,12 @@
     tools:showIn="@layout/app_bar_main">
 
     <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:id="@+id/swipeRefreshLayout"
         android:layout_height="match_parent">
 
-        <ListView
+        <com.mystery0.isafe.PublicMethod.SlideCutListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

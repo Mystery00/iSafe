@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mystery0.isafe.Adapter.ShowAdapter;
@@ -32,10 +31,12 @@ import com.mystery0.isafe.BaseClass.SaveInfo;
 import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
+import com.mystery0.isafe.PublicMethod.DeleteData;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetInfoList;
 import com.mystery0.isafe.PublicMethod.GetKey;
 import com.mystery0.isafe.PublicMethod.LanguageSetting;
+import com.mystery0.isafe.PublicMethod.SlideCutListView;
 import com.mystery0.isafe.R;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private CoordinatorLayout coordinatorLayout;
     private CircleImageView img_head;
-    private ListView listView;
+    private SlideCutListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private int checked = 0;
 
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_main);
-        listView = (ListView) findViewById(R.id.listView);
+        listView = (SlideCutListView) findViewById(R.id.listView);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         UserLogin();
@@ -163,7 +164,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh()
             {
-                new Handler().post(new Runnable()
+                swipeRefreshLayout.setRefreshing(true);
+                new Handler().postDelayed(new Runnable()
                 {
                     @Override
                     public void run()
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity
                         showList(MainActivity.this, checked);
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                });
+                },2000);
             }
         });
         swipeRefreshLayout.setColorSchemeResources(
@@ -181,6 +183,7 @@ public class MainActivity extends AppCompatActivity
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         showList(MainActivity.this, GetInfoList.ALL);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     private void monitor()
@@ -210,6 +213,16 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("password", saveInfo.getPassword());
                 intent.putExtra("item_type", saveInfo.getType());
                 startActivity(intent);
+            }
+        });
+        listView.setRemoveListener(new SlideCutListView.RemoveListener()
+        {
+            @Override
+            public void removeItem(SlideCutListView.RemoveDirection direction, int position)
+            {
+                SaveInfo saveInfo=GetInfoList.getList(MainActivity.this,checked).get(position);
+                DeleteData.deleteData(getApplicationContext(),saveInfo.getId());
+                showList(MainActivity.this, checked);
             }
         });
     }
