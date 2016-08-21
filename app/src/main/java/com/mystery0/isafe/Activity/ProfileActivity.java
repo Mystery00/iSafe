@@ -299,7 +299,7 @@ public class ProfileActivity extends AppCompatActivity
                 @SuppressLint("InflateParams") final
                 EditText new_email=new EditText(ProfileActivity.this);
                 new AlertDialog.Builder(ProfileActivity.this)
-                        .setTitle(R.string.title_change_password)
+                        .setTitle(R.string.title_change_email)
                         .setView(new_email)
                         .setNegativeButton(getString(R.string.action_cancel),null)
                         .setPositiveButton(getString(R.string.action_ok), new DialogInterface.OnClickListener()

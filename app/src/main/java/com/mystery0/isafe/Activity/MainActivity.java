@@ -1,9 +1,12 @@
 package com.mystery0.isafe.Activity;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -37,6 +40,7 @@ import com.mystery0.isafe.PublicMethod.GetKey;
 import com.mystery0.isafe.R;
 
 import java.io.File;
+import java.util.Objects;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
@@ -384,38 +388,42 @@ public class MainActivity extends AppCompatActivity
             }
             user.login(new SaveListener<User>()
             {
+                @SuppressLint("NewApi")
                 @Override
                 public void done(User user, BmobException e)
                 {
                     swipeRefreshLayout.setRefreshing(false);
                     if (e == null)
                     {
-                        BmobFile bmobFile = new BmobFile("user.png", "", BmobUser.getCurrentUser(User.class).getHeadFileUrl());
-                        bmobFile.download(new File(getSharedPreferences("kk", Context.MODE_PRIVATE).getString("head", "null")), new DownloadFileListener()
+                        if(!Objects.equals(BmobUser.getCurrentUser(User.class).getHeadFileUrl(), "null"))
                         {
-                            @Override
-                            public void done(String s, BmobException e)
+                            BmobFile bmobFile = new BmobFile("user.png", "", BmobUser.getCurrentUser(User.class).getHeadFileUrl());
+                            bmobFile.download(new File(getSharedPreferences("kk", Context.MODE_PRIVATE).getString("head", "null")), new DownloadFileListener()
                             {
-                                if (e == null)
+                                @Override
+                                public void done(String s, BmobException e)
                                 {
-                                    img_head.setImageBitmap(BitmapFactory.decodeFile(getSharedPreferences("kk", MODE_PRIVATE).getString("head", null)));
-                                } else
-                                {
-                                    Log.e("error", e.getMessage());
+                                    if (e == null)
+                                    {
+                                        img_head.setImageBitmap(BitmapFactory.decodeFile(getSharedPreferences("kk", MODE_PRIVATE).getString("head", null)));
+                                    } else
+                                    {
+                                        Log.e("error", e.getMessage());
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onProgress(Integer integer, long l)
+                                @Override
+                                public void onProgress(Integer integer, long l)
+                                {
+                                }
+                            });
+                            if (user.getEmailVerified())
                             {
+                                text_statues_verified.setText(getString(R.string.verified_done));
+                            } else
+                            {
+                                text_statues_verified.setText(getString(R.string.verified_null));
                             }
-                        });
-                        if (user.getEmailVerified())
-                        {
-                            text_statues_verified.setText(getString(R.string.verified_done));
-                        } else
-                        {
-                            text_statues_verified.setText(getString(R.string.verified_null));
                         }
                     } else
                     {

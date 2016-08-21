@@ -108,6 +108,7 @@
     <string name="title_choose_file">Please Choose A Folder</string>
     <string name="title_cloud">Please Choose A Item</string>
     <string name="title_change_password">Change Password</string>
+    <string name="title_change_email">Change Email</string>
     <string name="title_activity_profile">Profile</string>
 
     <string name="text_new">New Friend</string>
