@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity
                                     {
                                         getSharedPreferences("key", MODE_PRIVATE)
                                                 .edit()
-                                                .putString("key2", GetKey.getKey(getApplicationContext()))
+                                                .putString("key2", Cryptogram.JM(localEditText.getText().toString(),Cryptogram.JX(getSharedPreferences("key",Context.MODE_PRIVATE).getString("key6",null),getString(R.string.app_name))))
                                                 .apply();
                                     } catch (Exception e)
                                     {
