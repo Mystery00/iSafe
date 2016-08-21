@@ -351,6 +351,9 @@ public class ProfileActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 BmobUser.logOut();
+                File file = new File(getFilesDir().getPath() + "/head/user.png");
+                //noinspection ResultOfMethodCallIgnored
+                file.delete();
                 finish();
             }
         });
