@@ -3,7 +3,6 @@ package com.mystery0.isafe.Activity;
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -92,6 +91,7 @@ public class ShowActivity extends AppCompatActivity
         layout_password.getEditText().setText(this.getIntent().getStringExtra("password"));
 
         spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_item)));
+        spinner.setSelection(Integer.parseInt(getIntent().getStringExtra("item_type")));
         switch (this.getIntent().getStringExtra("type"))
         {
             case "Edit":
