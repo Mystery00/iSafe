@@ -192,6 +192,7 @@ public class SettingActivity extends AppCompatActivity
                                                 });
                                                 break;
                                             case 1:
+                                                params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
                                                 params.putString(QzoneShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));//必填
                                                 params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));//选填
                                                 params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));//必填
