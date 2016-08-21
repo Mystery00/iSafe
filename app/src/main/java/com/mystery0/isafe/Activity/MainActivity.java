@@ -33,6 +33,7 @@ import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetInfoList;
+import com.mystery0.isafe.PublicMethod.GetKey;
 import com.mystery0.isafe.R;
 
 import java.io.File;
@@ -64,15 +65,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.i("info",java.util.UUID.randomUUID().toString());
-        try
-        {
-            Log.i("info",Cryptogram.JM(java.util.UUID.randomUUID().toString(),"iSafe"));
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
 
         isFirstRun();
 
@@ -116,10 +108,13 @@ public class MainActivity extends AppCompatActivity
                                         .edit()
                                         .putString("key1", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key1)))
                                         .putString("key6", Cryptogram.JM(java.util.UUID.randomUUID().toString(), getString(R.string.app_name)))
-                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
                                         .putString("key3", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key2)))
                                         .putString("key4", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key3)))
                                         .putString("key5", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key4)))
+                                        .apply();
+                                getSharedPreferences("key",MODE_PRIVATE)
+                                        .edit()
+                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null"),getString(R.string.app_name))))
                                         .apply();
                                 getSharedPreferences("kk", MODE_PRIVATE)
                                         .edit()
@@ -260,7 +255,8 @@ public class MainActivity extends AppCompatActivity
                                     try
                                     {
                                         getSharedPreferences("key", MODE_PRIVATE)
-                                                .edit().putString("key2", Cryptogram.JM(localEditText.getText().toString(), getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null")))
+                                                .edit()
+                                                .putString("key2", GetKey.getKey(getApplicationContext()))
                                                 .apply();
                                     } catch (Exception e)
                                     {

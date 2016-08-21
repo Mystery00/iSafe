@@ -40,9 +40,9 @@ public class GetInfoList
             try
             {
                 saveInfo.setUsername(
-                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("username")), GetKey.getKey(context)));
+                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("username")), GetKey.getKey(context.getApplicationContext())));
                 saveInfo.setPassword(
-                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("password")), GetKey.getKey(context)));
+                        Cryptogram.JX(cursor.getString(cursor.getColumnIndex("password")), GetKey.getKey(context.getApplicationContext())));
             } catch (Exception e)
             {
                 e.printStackTrace();
