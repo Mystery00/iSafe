@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mystery0.isafe.Adapter.SettingItemAdapter;
+import com.mystery0.isafe.BaseClass.OnClick;
 import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.ContentProvider.SQLiteHelper;
 import com.mystery0.isafe.PublicMethod.CopyFile;
@@ -43,6 +44,7 @@ public class SettingActivity extends AppCompatActivity
     private Toolbar toolbar;
     private ListView listView;
     private CoordinatorLayout coordinatorLayout;
+    private int choose_language;
     private static final int REQUEST_BACKUP = 1111;
     private static final int REQUEST_RESTORE = 2222;
 
@@ -91,16 +93,21 @@ public class SettingActivity extends AppCompatActivity
                 switch (i)
                 {
                     case 0://Profile
-                        User user= BmobUser.getCurrentUser(User.class);
-                        if(user!=null)
+                        User user = BmobUser.getCurrentUser(User.class);
+                        if (user != null)
                         {
-                            startActivity(new Intent(SettingActivity.this,ProfileActivity.class));
-                        }else
+                            startActivity(new Intent(SettingActivity.this, ProfileActivity.class));
+                        } else
                         {
-                            startActivity(new Intent(SettingActivity.this,SignInActivity.class));
+                            startActivity(new Intent(SettingActivity.this, SignInActivity.class));
                         }
                         break;
                     case 1://Language
+                        OnClick click=new OnClick(0,getApplicationContext());
+                        new AlertDialog.Builder(SettingActivity.this)
+                                .setSingleChoiceItems(R.array.language_menu, getSharedPreferences("language",MODE_PRIVATE).getInt("setting",0), click)
+                                .setPositiveButton(R.string.action_ok,click)
+                                .show();
                         break;
                     case 2://Backup
                         new AlertDialog.Builder(SettingActivity.this)
@@ -130,14 +137,14 @@ public class SettingActivity extends AppCompatActivity
                                 .setTitle(R.string.text_setting_delete)
                                 .setIcon(R.drawable.ic_delete)
                                 .setMessage(R.string.dialog_delete_message)
-                                .setNegativeButton(getString(R.string.action_cancel),null)
+                                .setNegativeButton(getString(R.string.action_cancel), null)
                                 .setPositiveButton(getString(R.string.action_delete), new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
                                     {
                                         DeleteFile.delete(new File(getString(R.string.data_base_table_path)));
-                                        Snackbar.make(coordinatorLayout,getString(R.string.snack_bar_complete_delete),Snackbar.LENGTH_SHORT)
+                                        Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_complete_delete), Snackbar.LENGTH_SHORT)
                                                 .show();
                                     }
                                 })
@@ -279,7 +286,7 @@ public class SettingActivity extends AppCompatActivity
                 case REQUEST_RESTORE:
                     try
                     {
-                        if (CopyFile.fileCopy(GetPath.getPath(this, data.getData()),getString(R.string.data_base_table_path)))
+                        if (CopyFile.fileCopy(GetPath.getPath(this, data.getData()), getString(R.string.data_base_table_path)))
                         {
                             Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_done_restore), Snackbar.LENGTH_SHORT)
                                     .show();
@@ -293,8 +300,8 @@ public class SettingActivity extends AppCompatActivity
                         Log.e("error", e.toString());
                         e.printStackTrace();
                     }
-            break;
+                    break;
+            }
         }
     }
-}
 }

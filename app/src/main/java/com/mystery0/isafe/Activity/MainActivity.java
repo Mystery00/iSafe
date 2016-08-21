@@ -1,12 +1,10 @@
 package com.mystery0.isafe.Activity;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -37,9 +35,11 @@ import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetInfoList;
 import com.mystery0.isafe.PublicMethod.GetKey;
+import com.mystery0.isafe.PublicMethod.LanguageSetting;
 import com.mystery0.isafe.R;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Objects;
 
 import cn.bmob.v3.Bmob;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setLanguage();
         setContentView(R.layout.activity_main);
 
         isFirstRun();
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onResume();
 
-        showList(getApplicationContext(),checked);
+        showList(getApplicationContext(), checked);
         UserLogin();
     }
 
@@ -116,9 +117,9 @@ public class MainActivity extends AppCompatActivity
                                         .putString("key4", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key3)))
                                         .putString("key5", Cryptogram.JM(getString(R.string.text_username), getString(R.string.wrong_key4)))
                                         .apply();
-                                getSharedPreferences("key",MODE_PRIVATE)
+                                getSharedPreferences("key", MODE_PRIVATE)
                                         .edit()
-                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null"),getString(R.string.app_name))))
+                                        .putString("key2", Cryptogram.JM(editText.getText().toString(), Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key6", "null"), getString(R.string.app_name))))
                                         .apply();
                                 getSharedPreferences("kk", MODE_PRIVATE)
                                         .edit()
@@ -203,7 +204,7 @@ public class MainActivity extends AppCompatActivity
                 SaveInfo saveInfo = GetInfoList.getList(MainActivity.this, checked).get(i);
                 Intent intent = new Intent(MainActivity.this, ShowActivity.class);
                 intent.putExtra("type", "Show");
-                intent.putExtra("id",saveInfo.getId());
+                intent.putExtra("id", saveInfo.getId());
                 intent.putExtra("title", saveInfo.getTitle());
                 intent.putExtra("username", saveInfo.getUsername());
                 intent.putExtra("password", saveInfo.getPassword());
@@ -335,7 +336,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("title", "");
                 intent.putExtra("username", "");
                 intent.putExtra("password", "");
-                intent.putExtra("item_type", "");
+                intent.putExtra("item_type", "0");
                 startActivity(intent);
                 break;
             case R.id.image_menu_head:
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity
     private void UserLogin()
     {
         swipeRefreshLayout.setRefreshing(true);
-        showList(getApplicationContext(),checked);
+        showList(getApplicationContext(), checked);
         final User localUser = BmobUser.getCurrentUser(User.class);
         if (localUser != null)
         {
@@ -395,7 +396,7 @@ public class MainActivity extends AppCompatActivity
                     swipeRefreshLayout.setRefreshing(false);
                     if (e == null)
                     {
-                        if(!Objects.equals(BmobUser.getCurrentUser(User.class).getHeadFileUrl(), "null"))
+                        if (!Objects.equals(BmobUser.getCurrentUser(User.class).getHeadFileUrl(), "null"))
                         {
                             BmobFile bmobFile = new BmobFile("user.png", "", BmobUser.getCurrentUser(User.class).getHeadFileUrl());
                             bmobFile.download(new File(getSharedPreferences("kk", Context.MODE_PRIVATE).getString("head", "null")), new DownloadFileListener()
@@ -433,10 +434,31 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
-        }else
+        } else
         {
             text_statues_verified.setText(getString(R.string.verified_null));
             img_head.setImageResource(R.drawable.ic_guest);
         }
+    }
+
+    private void setLanguage()
+    {
+        Locale locale;
+        switch (getSharedPreferences("language", MODE_PRIVATE).getInt("setting", 0))
+        {
+            case 1:
+                locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case 2:
+                locale = Locale.TRADITIONAL_CHINESE;
+                break;
+            case 3:
+                locale = Locale.ENGLISH;
+                break;
+            default:
+                locale = Locale.getDefault();
+                break;
+        }
+        LanguageSetting.set(locale, getApplicationContext());
     }
 }

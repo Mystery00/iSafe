@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinner_item">
-        <item>Default</item>
-        <item>Computer</item>
-        <item>Internet</item>
-        <item>Email</item>
-        <item>Game</item>
-        <item>Member</item>
+        <item>@string/item_all</item>
+        <item>@string/item_computer</item>
+        <item>@string/item_internet</item>
+        <item>@string/item_email</item>
+        <item>@string/item_game</item>
+        <item>@string/item_member</item>
     </string-array>
 </resources>

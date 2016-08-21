@@ -1,0 +1,142 @@
+<resources>
+    <string name="app_name">iSafe</string>
+    <string name="app_id">1105614282</string>
+    <string name="application_id">57f0cb7369bb687339e2c2a88d9fbca0</string>
+
+    <string name="data_base_file_name">app.db</string>
+    <string name="data_base_table_name">kk</string>
+    <string name="data_base_table_path">/data/data/com.mystery0.isafe/databases/app.db</string>
+
+    <string name="true_key">HhHhHhKey</string>
+    <string name="wrong_key1">HhHhHhKey</string>
+    <string name="wrong_key2">HhHfGfgSSC</string>
+    <string name="wrong_key3">HhHhHhVXDey</string>
+    <string name="wrong_key4">HhHhHhCEgHUy</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_changeKey">修改密钥</string>
+    <string name="action_setting">设置</string>
+
+    <string name="verified_done">已验证</string>
+    <string name="verified_null">未验证</string>
+
+    <string name="menu_communicate">通信</string>
+    <string name="menu_exit">退出</string>
+    <string name="menu_setting">设置</string>
+    <string name="menu_finish">完成</string>
+    <string name="menu_edit">编辑</string>
+
+    <string name="item_all">所有</string>
+    <string name="item_computer">计算机</string>
+    <string name="item_internet">互联网</string>
+    <string name="item_email">E-mail</string>
+    <string name="item_game">游戏</string>
+    <string name="item_member">会员</string>
+
+    <string name="hint_title">请输入标题</string>
+    <string name="hint_username">请输入用户名</string>
+    <string name="hint_password">请输入密码</string>
+    <string name="hint_re_password">请再次输入密码</string>
+    <string name="hint_email">请输入 E-mail</string>
+    <string name="hint_feed_message">请输入信息</string>
+    <string name="hint_contact">请输入您的联系信息</string>
+    <string name="hint_change_password_old">输入旧密码</string>
+    <string name="hint_change_password_new">输入新密码</string>
+    <string name="hint_change_email_new">输入新 E-mail</string>
+
+    <string name="error_title">标题不能为空</string>
+    <string name="error_username">用户名不能为空</string>
+    <string name="error_password">密码不能为空</string>
+    <string name="error_contact">联系信息不能为空</string>
+    <string name="error_email">E-mail 不能为空</string>
+    <string name="error_repeat">密码必须相同</string>
+
+    <string name="snack_bar_error_add">请完善信息！</string>
+    <string name="snack_bar_error_change">密钥不可用！</string>
+    <string name="snack_bar_error_feedback">请完善信息！</string>
+    <string name="snack_bar_done_change">密钥修改成功！</string>
+    <string name="snack_bar_done_set">密钥设置成功！</string>
+    <string name="snack_bar_done_feedback">成功！</string>
+    <string name="snack_bar_copied">文本以复制到剪切板！</string>
+    <string name="snack_bar_choose">请安装文件管理器！</string>
+    <string name="snack_bar_done_backup">备份完成！</string>
+    <string name="snack_bar_failed_backup">备份失败！</string>
+    <string name="snack_bar_done_restore">数据恢复完成！</string>
+    <string name="snack_bar_failed_restore">数据恢复失败！</string>
+    <string name="snack_bar_complete_delete">删除完成！</string>
+    <string name="snack_bar_complete_update">信息更新完成！</string>
+    <string name="snack_bar_reset">重设密码的邮件发送成功，请在邮箱完成下一步流程！</string>
+    <string name="snack_bar_complete_upload">上传完成！</string>
+    <string name="snack_bar_complete_download">下载完成！</string>
+
+    <string name="toast_complete_share">分享成功！</string>
+    <string name="toast_cancel_share">分享失败！</string>
+    <string name="toast_complete_sign_up">注册成功！</string>
+    <string name="toast_cancel_sign_up">注册失败！</string>
+    <string name="toast_complete_sign_in">登陆成功！</string>
+    <string name="toast_cancel_sign_in">登录失败！</string>
+
+    <string name="dialog_change_key_title">修改密钥</string>
+    <string name="dialog_change_key_message">开发者建议您不要经常修改该值，该值影响数据的加密与解析，不同的值可能导致数据丢失以及未知 bug 。请谨慎修改！</string>
+    <string name="dialog_change_key_hint">请键入新的密钥</string>
+    <string name="dialog_set_key_title">请输入密钥</string>
+    <string name="dialog_set_key_message">请牢记该值！</string>
+    <string name="dialog_set_key_hint">请输入密钥</string>
+    <string name="dialog_feedback_title">请稍后……</string>
+    <string name="dialog_about_title">iSafe</string>
+    <string name="dialog_about_version">Version 1.0.0</string>
+    <string name="dialog_about_author">By Mystery0</string>
+    <string name="dialog_about_team">酱油工作室</string>
+    <string name="dialog_delete_message">此操作会删除该应用的数据以及设置，但是不会删除云端数据。</string>
+    <string name="dialog_backup_message">从外置存储卡上备份/恢复数据库。你可以通过第三方软件打开数据库查看。请牢记密钥！</string>
+    <string name="dialog_title_upload">上传中……</string>
+    <string name="dialog_message_upload">已完成……</string>
+    <string name="dialog_title_download">下载中……</string>
+    <string name="dialog_message_download">已完成……</string>
+    <string name="dialog_message_forget">请输入您的 E-mail 来重设密码</string>
+    <string name="dialog_message_cloud">备份数据到云端，你可以从云端随时恢复数据库。</string>
+
+    <string name="information_share_title">一个简洁并且有用的密码管理软件</string>
+    <string name="information_share_summary">全新Material Design 风格</string>
+    <string name="information_share_url">https://www.mystery0.vip/iSafe_beta.apk</string>
+
+    <string name="title_activity_login">登陆</string>
+    <string name="title_activity_sign_up">注册</string>
+    <string name="title_choose_file">请选择一个文件</string>
+    <string name="title_cloud">请选择一项操作</string>
+    <string name="title_change_password">修改密码</string>
+    <string name="title_change_email">修改 E-mail</string>
+    <string name="title_activity_profile">个人空间</string>
+
+    <string name="text_new">新朋友</string>
+    <string name="text_forget">忘记密码？</string>
+
+    <string name="text_username">Username</string>
+    <string name="text_email">E-mail</string>
+    <string name="text_key">密钥</string>
+    <string name="text_cloud">云端</string>
+    <string name="text_change_password">修改密码</string>
+    <string name="text_change_email">修改 E-mail</string>
+    <string name="text_change_avatar">修改头像</string>
+    <string name="text_logout">登出</string>
+
+    <string name="text_setting_personal">个人空间</string>
+    <string name="text_setting_language">语言</string>
+    <string name="text_setting_backup">备份/恢复</string>
+    <string name="text_setting_delete">清除数据</string>
+    <string name="text_setting_share">向朋友分享</string>
+    <string name="text_setting_send">意见反馈</string>
+    <string name="text_setting_about">关于我们</string>
+
+    <string name="action_ok">确定</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_backup">备份</string>
+    <string name="action_restore">恢复</string>
+    <string name="action_delete">删除</string>
+    <string name="action_settings">设置</string>
+
+    <string name="share_qq">分享给QQ好友</string>
+    <string name="share_qzone">分享到QQ空间</string>
+</resources>
