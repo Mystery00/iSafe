@@ -1,10 +1,8 @@
 package com.mystery0.isafe.Activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,12 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.mystery0.isafe.Adapter.ShowAdapter;
 import com.mystery0.isafe.BaseClass.SaveInfo;
-import com.mystery0.isafe.BaseClass.User;
-import com.mystery0.isafe.PublicMethod.CircleImageView;
 import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.DeleteData;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
@@ -38,28 +32,16 @@ import com.mystery0.isafe.PublicMethod.LanguageSetting;
 import com.mystery0.isafe.PublicMethod.SlideCutListView;
 import com.mystery0.isafe.R;
 
-import java.io.File;
 import java.util.Locale;
-import java.util.Objects;
-
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.DownloadFileListener;
-import cn.bmob.v3.listener.SaveListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private FloatingActionButton fab;
-    private TextView text_menu_username;
-    private TextView text_statues_verified;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private CoordinatorLayout coordinatorLayout;
-    private CircleImageView img_head;
     private SlideCutListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private int checked = 0;
@@ -84,7 +66,6 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         showList(getApplicationContext(), checked);
-        UserLogin();
     }
 
     private void isFirstRun()
@@ -141,21 +122,14 @@ public class MainActivity extends AppCompatActivity
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
-        Bmob.initialize(this, getString(R.string.application_id));
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerLayout = navigationView.getHeaderView(0);
-        text_menu_username = (TextView) headerLayout.findViewById(R.id.text_menu_username);
-        text_statues_verified = (TextView) headerLayout.findViewById(R.id.verified_statues);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        img_head = (CircleImageView) headerLayout.findViewById(R.id.image_menu_head);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout_main);
         listView = (SlideCutListView) findViewById(R.id.listView);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-
-        UserLogin();
 
         setSupportActionBar(toolbar);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -169,7 +143,6 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void run()
                     {
-                        UserLogin();
                         showList(MainActivity.this, checked);
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -196,7 +169,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        img_head.setOnClickListener(this);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -351,16 +323,6 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("item_type", "0");
                 startActivity(intent);
                 break;
-            case R.id.image_menu_head:
-                User user = BmobUser.getCurrentUser(User.class);
-                if (user != null)
-                {
-                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                } else
-                {
-                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                }
-                break;
         }
     }
 
@@ -368,89 +330,6 @@ public class MainActivity extends AppCompatActivity
     {
         ShowAdapter showAdapter = new ShowAdapter(context, GetInfoList.getList(context, type));
         listView.setAdapter(showAdapter);
-    }
-
-    private void UserLogin()
-    {
-        swipeRefreshLayout.setRefreshing(true);
-        showList(getApplicationContext(), checked);
-        final User localUser = BmobUser.getCurrentUser(User.class);
-        if (localUser != null)
-        {
-            if (localUser.getEmailVerified())
-            {
-                text_statues_verified.setText(getString(R.string.verified_done));
-            } else
-            {
-                text_statues_verified.setText(getString(R.string.verified_null));
-            }
-            text_menu_username.setText(localUser.getUsername());
-            getSharedPreferences("key", MODE_PRIVATE)
-                    .edit()
-                    .putString("key6", localUser.getOne_key())
-                    .apply();
-
-            User user = new User();
-            try
-            {
-                user.setUsername(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("key", "null"), getString(R.string.text_username)));
-                user.setPassword(Cryptogram.JM(Cryptogram.JX(getSharedPreferences("key", MODE_PRIVATE).getString("keyKey", "null"), getSharedPreferences("key", MODE_PRIVATE).getString("key1", "null")), getSharedPreferences("key", MODE_PRIVATE).getString("key3", "null")));
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            user.login(new SaveListener<User>()
-            {
-                @SuppressLint("NewApi")
-                @Override
-                public void done(User user, BmobException e)
-                {
-                    swipeRefreshLayout.setRefreshing(false);
-                    if (e == null)
-                    {
-                        if (!Objects.equals(BmobUser.getCurrentUser(User.class).getHeadFileUrl(), "null"))
-                        {
-                            BmobFile bmobFile = new BmobFile("user.png", "", BmobUser.getCurrentUser(User.class).getHeadFileUrl());
-                            bmobFile.download(new File(getSharedPreferences("kk", Context.MODE_PRIVATE).getString("head", "null")), new DownloadFileListener()
-                            {
-                                @Override
-                                public void done(String s, BmobException e)
-                                {
-                                    if (e == null)
-                                    {
-                                        img_head.setImageBitmap(BitmapFactory.decodeFile(getSharedPreferences("kk", MODE_PRIVATE).getString("head", null)));
-                                    } else
-                                    {
-                                        Log.e("error", e.getMessage());
-                                    }
-                                }
-
-                                @Override
-                                public void onProgress(Integer integer, long l)
-                                {
-                                }
-                            });
-                            if (user.getEmailVerified())
-                            {
-                                text_statues_verified.setText(getString(R.string.verified_done));
-                            } else
-                            {
-                                text_statues_verified.setText(getString(R.string.verified_null));
-                            }
-                        }
-                    } else
-                    {
-                        Log.e("error", e.toString());
-                        Snackbar.make(coordinatorLayout, e.getMessage(), Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
-                }
-            });
-        } else
-        {
-            text_statues_verified.setText(getString(R.string.verified_null));
-            img_head.setImageResource(R.drawable.ic_guest);
-        }
     }
 
     private void setLanguage()

@@ -15,11 +15,6 @@ public class GetSettingList
         SettingItem settingItem;
 
         settingItem=new SettingItem();
-        settingItem.setImg(R.drawable.ic_profile);
-        settingItem.setText(context.getString(R.string.text_setting_personal));
-        arrayList.add(settingItem);
-
-        settingItem=new SettingItem();
         settingItem.setImg(R.drawable.ic_language);
         settingItem.setText(context.getString(R.string.text_setting_language));
         arrayList.add(settingItem);
@@ -37,11 +32,6 @@ public class GetSettingList
         settingItem=new SettingItem();
         settingItem.setImg(R.drawable.ic_share);
         settingItem.setText(context.getString(R.string.text_setting_share));
-        arrayList.add(settingItem);
-
-        settingItem=new SettingItem();
-        settingItem.setImg(R.drawable.ic_send);
-        settingItem.setText(context.getString(R.string.text_setting_send));
         arrayList.add(settingItem);
 
         settingItem=new SettingItem();

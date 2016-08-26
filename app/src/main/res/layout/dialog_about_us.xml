@@ -27,10 +27,19 @@
         android:layout_margin="@dimen/text_about_margin"
         android:textSize="@dimen/text_size_message"
         android:text="@string/dialog_about_author"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_margin="@dimen/text_about_margin"
         android:textSize="@dimen/text_size_message"
         android:text="@string/dialog_about_team"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/text_size_message"
+        android:text="@string/dialog_about_feedback"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

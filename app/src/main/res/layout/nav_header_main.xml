@@ -11,35 +11,10 @@
               android:paddingTop="@dimen/activity_vertical_margin"
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.mystery0.isafe.PublicMethod.CircleImageView
-        android:id="@+id/image_menu_head"
-        android:layout_width="@dimen/CircleImageView"
-        android:layout_height="@dimen/CircleImageView"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/ic_guest"/>
-
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:textSize="18sp"
-        android:id="@+id/text_menu_username"
-        android:text="@string/text_username"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/verified_statues"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:text="@string/verified_null"
-        android:gravity="center"
-        android:textColor="@color/text_color"
-        android:layout_margin="@dimen/text_verified_margin"
-        android:background="@android:color/holo_green_light"
-        android:textSize="@dimen/text_verified_statues"
-        android:layout_height="match_parent"/>
+        android:text="@string/text_welcome"
+        android:textSize="@dimen/text_size"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
