@@ -34,7 +34,6 @@ import com.mystery0.isafe.PublicMethod.Cryptogram;
 import com.mystery0.isafe.PublicMethod.DeleteData;
 import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetInfoList;
-import com.mystery0.isafe.PublicMethod.GetKey;
 import com.mystery0.isafe.PublicMethod.LanguageSetting;
 import com.mystery0.isafe.PublicMethod.SlideCutListView;
 import com.mystery0.isafe.R;
@@ -235,7 +234,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
         {
-            drawer.openDrawer(GravityCompat.START);
+            ExitApplication.getInstance().exit();
         }
     }
 
