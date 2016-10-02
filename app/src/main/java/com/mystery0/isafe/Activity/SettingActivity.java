@@ -1,7 +1,6 @@
 package com.mystery0.isafe.Activity;
 
 import android.app.Activity;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,9 +15,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mystery0.isafe.Adapter.SettingItemAdapter;
 import com.mystery0.isafe.BaseClass.OnClick;
+import com.mystery0.isafe.BaseClass.User;
 import com.mystery0.isafe.ContentProvider.SQLiteHelper;
 import com.mystery0.isafe.PublicMethod.CopyFile;
 import com.mystery0.isafe.PublicMethod.DeleteFile;
@@ -26,16 +27,24 @@ import com.mystery0.isafe.PublicMethod.ExitApplication;
 import com.mystery0.isafe.PublicMethod.GetPath;
 import com.mystery0.isafe.PublicMethod.GetSettingList;
 import com.mystery0.isafe.R;
+import com.tencent.connect.share.QQShare;
+import com.tencent.connect.share.QzoneShare;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import java.io.File;
 import java.io.IOException;
 
+import cn.bmob.v3.BmobUser;
 
 public class SettingActivity extends AppCompatActivity
 {
+    private Tencent tencent;
     private Toolbar toolbar;
     private ListView listView;
     private CoordinatorLayout coordinatorLayout;
+    private int choose_language;
     private static final int REQUEST_BACKUP = 1111;
     private static final int REQUEST_RESTORE = 2222;
 
@@ -53,6 +62,7 @@ public class SettingActivity extends AppCompatActivity
     private void initialization()
     {
         ExitApplication.getInstance().addActivity(this);
+        tencent = Tencent.createInstance(getString(R.string.app_id), this.getApplicationContext());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         listView = (ListView) findViewById(R.id.listView);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
@@ -80,8 +90,18 @@ public class SettingActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
             {
-                switch (i+1)
+                switch (i)
                 {
+                    case 0://Profile
+                        User user = BmobUser.getCurrentUser(User.class);
+                        if (user != null)
+                        {
+                            startActivity(new Intent(SettingActivity.this, ProfileActivity.class));
+                        } else
+                        {
+                            startActivity(new Intent(SettingActivity.this, SignInActivity.class));
+                        }
+                        break;
                     case 1://Language
                         OnClick click=new OnClick(0,getApplicationContext());
                         new AlertDialog.Builder(SettingActivity.this)
@@ -132,29 +152,85 @@ public class SettingActivity extends AppCompatActivity
                         new SQLiteHelper(SettingActivity.this, getString(R.string.data_base_file_name));
                         break;
                     case 4://Share With Friends
-                        Intent intent=new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.information_share_title));
-                        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.information_share_summary));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(Intent.createChooser(intent, getTitle()));
-                        break;
-                    case 5://About Us
                         new AlertDialog.Builder(SettingActivity.this)
-                                .setView(R.layout.dialog_about_us)
-                                .setPositiveButton(getString(R.string.action_ok), null)
-                                .setNegativeButton(getString(R.string.action_feedback), new DialogInterface.OnClickListener()
+                                .setItems(R.array.Share_Menu, new DialogInterface.OnClickListener()
                                 {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i)
                                     {
-                                        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                                        //noinspection deprecation
-                                        clipboardManager.setText("mystery0dyl@icloud.com");
-                                        Snackbar.make(coordinatorLayout, getString(R.string.snack_bar_copied), Snackbar.LENGTH_SHORT)
-                                                .show();
+                                        final Bundle params = new Bundle();
+                                        switch (i)
+                                        {
+                                            case 0:
+                                                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+                                                params.putString(QQShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));
+                                                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));
+                                                //params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,);
+                                                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));
+                                                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getString(R.string.app_name));
+                                                tencent.shareToQQ(SettingActivity.this, params, new IUiListener()
+                                                {
+                                                    @Override
+                                                    public void onComplete(Object o)
+                                                    {
+                                                        Toast.makeText(SettingActivity.this, getString(R.string.toast_complete_share), Toast.LENGTH_SHORT)
+                                                                .show();
+                                                    }
+
+                                                    @Override
+                                                    public void onError(UiError uiError)
+                                                    {
+                                                        Log.e("error", uiError.toString());
+                                                    }
+
+                                                    @Override
+                                                    public void onCancel()
+                                                    {
+                                                        Toast.makeText(SettingActivity.this, getString(R.string.toast_cancel_share), Toast.LENGTH_SHORT)
+                                                                .show();
+                                                    }
+                                                });
+                                                break;
+                                            case 1:
+                                                params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE,QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
+                                                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, getString(R.string.information_share_title));//必填
+                                                params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, getString(R.string.information_share_summary));//选填
+                                                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, getString(R.string.information_share_url));//必填
+                                                tencent.shareToQzone(SettingActivity.this, params, new IUiListener()
+                                                {
+                                                    @Override
+                                                    public void onComplete(Object o)
+                                                    {
+                                                        Toast.makeText(SettingActivity.this, getString(R.string.toast_complete_share), Toast.LENGTH_SHORT)
+                                                                .show();
+                                                    }
+
+                                                    @Override
+                                                    public void onError(UiError uiError)
+                                                    {
+                                                        Log.e("error", uiError.toString());
+                                                    }
+
+                                                    @Override
+                                                    public void onCancel()
+                                                    {
+                                                        Toast.makeText(SettingActivity.this, getString(R.string.toast_cancel_share), Toast.LENGTH_SHORT)
+                                                                .show();
+                                                    }
+                                                });
+                                                break;
+                                        }
                                     }
                                 })
+                                .show();
+                        break;
+                    case 5://Feed Back
+                        startActivity(new Intent(SettingActivity.this, FeedBackActivity.class));
+                        break;
+                    case 6://About Us
+                        new AlertDialog.Builder(SettingActivity.this)
+                                .setView(R.layout.dialog_about_us)
+                                .setNegativeButton(getString(R.string.action_ok), null)
                                 .show();
                         break;
                 }
@@ -162,6 +238,9 @@ public class SettingActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * 调用文件选择软件来选择文件
+     **/
     private void showFileChooser(int type)
     {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -177,6 +256,9 @@ public class SettingActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * 根据返回选择的文件，来进行上传操作
+     **/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
